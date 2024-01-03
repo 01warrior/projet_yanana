@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:yanana/pages/PageConnexion.dart';
-import 'package:yanana/pages/PageIntroductive.dart';
-import 'package:yanana/pages/PageServices.dart';
+//import 'package:yanana/pages/PageConnexion.dart';
+import 'package:yanana/vue/page_introductive.dart';
+//import 'package:yanana/pages/PageServices.dart';
 
 void main() {
   runApp(const MyApp());
