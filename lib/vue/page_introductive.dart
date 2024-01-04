@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:yanana/vue/page_services.dart';
 
@@ -16,28 +14,63 @@ class _PageIntroductiveState extends State<PageIntroductive> {
     Container(
       padding: EdgeInsets.all(20),
       color: Colors.white70,
-      child: Center(child: Text("Bienvenue sur YANANA votre application qui vous facilite la vie")),
+      child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset("assets/images/icone_intro/homme.png",width: 250,),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SizedBox(height: 80,),
+              ),
+              Text("Bienvenue sur YANANA votre application qui vous facilite la vie sur plusieurs plans.",style: TextStyle(fontWeight: FontWeight.bold,fontSize:18,fontFamily: "Poppins"),textAlign: TextAlign.center,),
+            ],
+          )
+      ),
     ),
+
     Container(
       padding: EdgeInsets.all(20),
       color: Colors.blue.shade700,
-      child: Center(child: Text("Vous avez besoins des point de recharge de gaz pour eviter de tourner dans tout les point de recharge de ouaga ?")),
+      child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset("assets/images/icone_intro/icone_terre.png",width: 250,),
+              const SizedBox(height: 80,),
+              const Text("Localiser les point de recharge de gaz les plus proche pour eviter de tourner dans toute la ville de ouaga.",style: TextStyle(color:Colors.white,fontWeight: FontWeight.bold,fontSize:18 ,fontFamily: "Poppins"),textAlign: TextAlign.center,),
+            ],
+          )
+      ),
     ),
+
     Container(
       padding: EdgeInsets.all(20),
-      color: Colors.black87,
-      child: Center(child: Text("Vous etes en pane et vous avez besoin d'un depaneur le plus proche de votre position?")),
+      color: Colors.cyan,
+      child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset("assets/images/icone_intro/technique.png",width: 250,),
+              SizedBox(height: 80,),
+              const Text("Vous etes en panne et vous avez besoin d'un depaneur le plus proche de votre position ?",style: TextStyle(fontWeight: FontWeight.bold,fontSize:18,fontFamily: "Poppins"),textAlign: TextAlign.center,),
+            ],
+          )
+      ),
     )
   ];
 
-  Timer? compteur;
+
   int pageCourant=0;
+
   final PageController _pageControleur=PageController(initialPage: 0);
+
+  /*  On vas se passer du diapo finalement
 
   fonctionDeDiaporama()
   {
-    //j'initialise avec une fonction qui vas faire une faire passer la page apres deux seconde
-    Timer.periodic(Duration(seconds: 4), (Timer compteur) {
+    //j'initialise avec une fonction qui vas faire une faire passer la page apres 10 seconde
+    Timer.periodic(Duration(seconds: 10), (Timer compteur) {
 
       if(pageCourant<slider.length-1)
       {
@@ -58,11 +91,13 @@ class _PageIntroductiveState extends State<PageIntroductive> {
     });
   }
 
+  */
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    fonctionDeDiaporama();
+    //fonctionDeDiaporama();
   }
 
   @override
@@ -80,24 +115,6 @@ class _PageIntroductiveState extends State<PageIntroductive> {
           setState(() {
             pageCourant=value;
 
-            //_______________________________________________A revoir--------------------------------------
-            ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: slider.length,
-              itemBuilder: (context, index) {
-                return Expanded(
-                  child: Container(
-                    margin: EdgeInsets.all(5),width: 60,height: 10,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: pageCourant==index?Colors.white70:Colors.grey
-                    ),
-                  ),
-                );
-
-              },);
-
-
           });
 
 
@@ -108,9 +125,11 @@ class _PageIntroductiveState extends State<PageIntroductive> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
 
-          SizedBox(
-            width: 120,
+          /*  SizedBox(
+            width: 110,
+            height: 50,
             child: FloatingActionButton(
+
               onPressed: () {
                 //si la personne souhaite passer je louvre directement la page
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -119,6 +138,31 @@ class _PageIntroductiveState extends State<PageIntroductive> {
 
             },
             child: Text("passer"),
+            ),
+
+          ),  */
+
+          SizedBox(
+            width: 110,
+            height: 50,
+            child: FloatingActionButton(
+              onPressed: () {
+
+                if(pageCourant<slider.length-1)
+              {
+                pageCourant++;
+                _pageControleur.animateToPage(pageCourant, duration: Duration(milliseconds: 500), curve: Curves.bounceInOut);
+              }
+              else
+              {
+
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return PageServices();
+                },));
+              }
+
+              },
+              child: Text("Suivant",style: TextStyle(color: Colors.black87,fontFamily: "Poppins"),),
             ),
 
           )

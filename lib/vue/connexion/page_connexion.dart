@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yanana/vue/page_services.dart';
-
+import 'package:yanana/vue/boutiquiers/accueil_boutiquier.dart';
 import 'page_creationCompte.dart';
 
 class Pageconnexion extends StatefulWidget {
@@ -36,8 +35,8 @@ class _PageconnexionState extends State<Pageconnexion> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Image.asset("assets/images/icone_services.png",width: 150,),
-            Text("YANANA",style: TextStyle(color: Colors.white,fontSize: 40,fontWeight: FontWeight.w700),),
-            Text("SERVICES",style: TextStyle(color: Colors.white,fontSize: 25),),
+            const Text("YANANA",style: TextStyle(color: Colors.white,fontSize: 40,fontWeight: FontWeight.w700),),
+            const Text("SERVICES",style: TextStyle(color: Colors.white,fontSize: 25),),
 
             Container(
               margin: EdgeInsets.all(25),
@@ -79,7 +78,7 @@ class _PageconnexionState extends State<Pageconnexion> {
                     ),
                   ),
 
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
 
@@ -109,27 +108,27 @@ class _PageconnexionState extends State<Pageconnexion> {
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      style: ButtonStyle(
+                      style: const ButtonStyle(
                           backgroundColor: MaterialStatePropertyAll(Colors.black),
                       ),
 
                         onPressed: () {
 
-                     /*   Navigator.push(context, MaterialPageRoute(
+                     Navigator.push(context, MaterialPageRoute(
                           builder: (context) {
-                          return PageServices();
-                        },));*/
+                          return Accueil_boutiquier();
+                        },));
 
-                    }, child: Text("Se connecter",style: TextStyle(color: Colors.white),)),
+                    }, child: const Text("Se connecter",style: TextStyle(color: Colors.white),)),
                   ),
 
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
 
                   Row(
                     children: [
-                      Text("Vous avez pas de compte ?",style: TextStyle(fontSize: 11,),),
+                      const Text("Vous avez pas de compte ?",style: TextStyle(fontSize: 11,),),
                       TextButton(onPressed: () {
                         Navigator.push(context, MaterialPageRoute(builder:(context) {
                           return PageCreationCompte();

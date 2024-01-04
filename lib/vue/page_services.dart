@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yanana/vue/connexion/page_connexion.dart';
+import 'package:yanana/vue/services/page_service_gaz.dart';
 
 class PageServices extends StatefulWidget {
   const PageServices({super.key});
@@ -21,7 +22,7 @@ class _PageServicesState extends State<PageServices> {
 
         elevation: 1,
         centerTitle: true,
-        title: Text("Services",style: TextStyle(color: Colors.white),),
+        title: Text("Services",style: TextStyle(color: Colors.white,fontFamily: "Poppins"),),
 
         actions: [
           Padding(
@@ -54,9 +55,11 @@ class _PageServicesState extends State<PageServices> {
               borderRadius: BorderRadius.circular(15)
             ),
 
-            child:Text("Facilitez vous la vie",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w800),),
+            child:Text("Facilitez vous la vie",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w800,fontFamily: "Poppins"),),
           ),
+
           GridView.builder(
+            padding: EdgeInsets.all(10),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
 
@@ -64,24 +67,35 @@ class _PageServicesState extends State<PageServices> {
               shrinkWrap:true,
             itemCount: 4,
             itemBuilder: ((context, index) {
-              return Container(
-                margin:const EdgeInsets.all(5),
-                padding:const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  border: Border.all(),
-                  color: Colors.blueGrey,
-                  borderRadius: BorderRadius.circular(15)
-                ),
+              return InkWell(
 
-                child: Column(
-                  children: [
-                   
-                   listImages[index],
-                    Divider(color: Colors.white60),
-                    Text(listName[index],style: TextStyle(color: Colors.white,shadows: [
-                      Shadow(color: Colors.black87,offset: Offset(1, 1))
-                      ]))
-                  ],
+                onTap: () {
+                  index==0?Navigator.push(context,
+                      MaterialPageRoute(builder: (context) {
+                    return Page_service_gaz();
+                  },)):null;
+                },
+
+                child: Container(
+
+                  margin:const EdgeInsets.all(5),
+                  padding:const EdgeInsets.all(10),
+
+                  decoration: BoxDecoration(
+                    border: Border.all(),
+                    color: Colors.blueGrey,
+                    borderRadius: BorderRadius.circular(15)
+                  ),
+
+                  child: Column(
+                    children: [
+                     listImages[index],
+                      Divider(color: Colors.white60),
+                      Text(listName[index],style: TextStyle(color: Colors.white,shadows: [
+                        Shadow(color: Colors.black87,offset: Offset(1, 1))
+                        ]))
+                    ],
+                  ),
                 ),
               );
             })),
