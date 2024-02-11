@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "438399986882",
+    "project_id": "yanana-8de3b",
+    "storage_bucket": "yanana-8de3b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:438399986882:android:2383ac1fa494930c8adf5b",
+        "android_client_info": {
+          "package_name": "com.example.yanana"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxWDsN0mISVhtxecgAaP6jp6LDbcXu1pU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

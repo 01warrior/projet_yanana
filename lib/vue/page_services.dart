@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:yanana/vue/connexion/page_connexion.dart';
-import 'package:yanana/vue/services/page_service_gaz.dart';
+import 'package:yanana/vue/gaz/connexion/page_connexion.dart';
+import 'package:yanana/vue/gaz/services/page_service_gaz.dart';
+
 
 class PageServices extends StatefulWidget {
   const PageServices({super.key});
@@ -32,7 +33,7 @@ class _PageServicesState extends State<PageServices> {
                 onPressed: () {
                 Navigator.push(context, MaterialPageRoute(
                   builder: (context) {
-                  return Pageconnexion();
+                  return VerifConnexion();
                 },));
             }, icon: Icon(Icons.person,color: Colors.blueAccent.shade700,size: 30,)),
           )

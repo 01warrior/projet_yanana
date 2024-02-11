@@ -1,0 +1,1 @@
+ C:\\Users\\TMA\\Documents\\projet_yanana\\.dart_tool\\flutter_build\\875fac58885873b628e3860f78452001\\native_assets.yaml: 
