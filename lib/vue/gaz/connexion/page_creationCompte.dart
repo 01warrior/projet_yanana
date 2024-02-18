@@ -199,6 +199,8 @@ class _PageCreationCompteState extends State<PageCreationCompte> {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(content:Text('Compte créer avec succès'))
                                 );
+                                FirebaseAuth.instance.signOut();
+                                Navigator.of(context).pop();
                               }else{
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(content:Text('Creation de compte échoué '))
