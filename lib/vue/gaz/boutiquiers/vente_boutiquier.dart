@@ -158,7 +158,7 @@ class _VenteBoutiquierState extends State<VenteBoutiquier> {
                 width: 300,
                 height: 90,
                 child: ElevatedButton(onPressed: () {
-                  FirebaseAuth.instance.signOut();
+                  //FirebaseAuth.instance.signOut();
                   if( _formKey.currentState!.validate() && _poidsC.text != '' && _gazC.text != '' ){// PERMET DE CONTROLER LES SAISIES DU USER AVANT DE TRAITER LES DATAS
                     print('modiaaaaaa');
                     _quantiteC.text = _quantiteC.text.trim(); // SUPPRIMER LES ESPACES AUX EXTREMITE DE LA DATA SAISIE
