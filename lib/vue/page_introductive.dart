@@ -1,3 +1,4 @@
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:yanana/vue/page_services.dart';
 
@@ -46,14 +47,14 @@ class _PageIntroductiveState extends State<PageIntroductive> {
 
     Container(
       padding: EdgeInsets.all(20),
-      color: Colors.cyan,
+      color: Colors.black87,
       child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset("assets/images/icone_intro/technique.png",width: 250,),
               SizedBox(height: 80,),
-              const Text("Vous etes en panne et vous avez besoin d'un depaneur le plus proche de votre position ?",style: TextStyle(fontWeight: FontWeight.bold,fontSize:18,fontFamily: "Poppins"),textAlign: TextAlign.center,),
+              const Text("Vous etes en panne et vous avez besoin d'un depaneur le plus proche de votre position ?",style: TextStyle(color:Colors.white,fontWeight: FontWeight.bold,fontSize:18,fontFamily: "Poppins"),textAlign: TextAlign.center,),
             ],
           )
       ),
@@ -103,72 +104,91 @@ class _PageIntroductiveState extends State<PageIntroductive> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PageView.builder(
 
-        controller:_pageControleur,
-        itemCount: slider.length,
-        itemBuilder: (context, index) {
-          return slider[index];
-        },
+      extendBodyBehindAppBar: true,
 
-        onPageChanged: (value) {
-          setState(() {
-            pageCourant=value;
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
 
-          });
+        bottom: AppBar(
+          centerTitle: true,
+          backgroundColor: Colors.transparent,
+          title:DotsIndicator(
+              dotsCount: slider.length,
+              position: pageCourant.toDouble(),
+              decorator: DotsDecorator(
+                activeColor: Colors.orange,
+                size: const Size.square(9.0),
+                activeSize: const Size(25.0, 9.0),
+                activeShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+              ),
+            ),
+        ),
 
 
-        },
+        actions: [
+          TextButton(
+              onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return PageServices();
+            },));
+          }, child: Text("Passer",style: TextStyle(color: Colors.orange,fontFamily: "Poppins",fontSize: 20),))
+        ],
       ),
 
-      floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
+      body:PageView.builder(
 
-          /*  SizedBox(
-            width: 110,
-            height: 50,
-            child: FloatingActionButton(
+            controller:_pageControleur,
+            itemCount: slider.length,
+            itemBuilder: (context, index) {
+              return slider[index];
+            },
 
-              onPressed: () {
-                //si la personne souhaite passer je louvre directement la page
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return PageServices();
-                },));
+            onPageChanged: (value) {
+              setState(() {
+                pageCourant=value;
+
+              });
+
 
             },
-            child: Text("passer"),
-            ),
+          ),
 
-          ),  */
 
-          SizedBox(
-            width: 110,
-            height: 50,
-            child: FloatingActionButton(
+
+      bottomSheet:BottomSheet(
+        backgroundColor: Colors.orange,
+        onClosing: () {
+
+      }, builder: (context) {
+        return SizedBox(
+          width: double.infinity,
+          height: 100,
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: ElevatedButton(
               onPressed: () {
 
                 if(pageCourant<slider.length-1)
-              {
-                pageCourant++;
-                _pageControleur.animateToPage(pageCourant, duration: Duration(milliseconds: 500), curve: Curves.bounceInOut);
-              }
-              else
-              {
-
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return PageServices();
-                },));
-              }
+                {
+                  pageCourant++;
+                  _pageControleur.animateToPage(pageCourant, duration: Duration(milliseconds: 500), curve: Curves.easeOutExpo);
+                }
+                else
+                {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return PageServices();
+                  },));
+                }
 
               },
-              child: Text("Suivant",style: TextStyle(color: Colors.black87,fontFamily: "Poppins"),),
+              child: pageCourant<slider.length-1?Text("Suivant",style: TextStyle(color: Colors.black87,fontFamily: "Poppins"),)
+                  :Text("Commencer",style: TextStyle(color: Colors.black87,fontFamily: "Poppins"),),
             ),
+          ),
 
-          )
-
-        ],
-      )
+        );
+      },),
     );
   }
 }
