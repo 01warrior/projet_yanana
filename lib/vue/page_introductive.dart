@@ -1,6 +1,7 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:yanana/vue/page_services.dart';
+import 'package:lottie/lottie.dart';
 
 class PageIntroductive extends StatefulWidget {
   const PageIntroductive({super.key});
@@ -19,7 +20,7 @@ class _PageIntroductiveState extends State<PageIntroductive> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset("assets/images/icone_intro/homme.png",width: 250,),
+              Lottie.asset('assets/images/anim1.json'),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: SizedBox(height: 80,),
@@ -32,14 +33,14 @@ class _PageIntroductiveState extends State<PageIntroductive> {
 
     Container(
       padding: EdgeInsets.all(20),
-      color: Colors.blue.shade700,
+      color: Colors.white70,
       child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset("assets/images/icone_intro/icone_terre.png",width: 250,),
+              Lottie.asset('assets/images/anim2.json'),
               const SizedBox(height: 80,),
-              const Text("Localiser les point de recharge de gaz les plus proche pour eviter de tourner dans toute la ville de ouaga.",style: TextStyle(color:Colors.white,fontWeight: FontWeight.bold,fontSize:18 ,fontFamily: "Poppins"),textAlign: TextAlign.center,),
+              const Text("Localiser les point de recharge de gaz les plus proche pour eviter de tourner dans toute la ville de ouaga.",style: TextStyle(fontWeight: FontWeight.bold,fontSize:18 ,fontFamily: "Poppins"),textAlign: TextAlign.center,),
             ],
           )
       ),
@@ -47,14 +48,14 @@ class _PageIntroductiveState extends State<PageIntroductive> {
 
     Container(
       padding: EdgeInsets.all(20),
-      color: Colors.black87,
+      color: Colors.white70,
       child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset("assets/images/icone_intro/technique.png",width: 250,),
+              Lottie.asset('assets/images/anim5.json'),
               SizedBox(height: 80,),
-              const Text("Vous etes en panne et vous avez besoin d'un depaneur le plus proche de votre position ?",style: TextStyle(color:Colors.white,fontWeight: FontWeight.bold,fontSize:18,fontFamily: "Poppins"),textAlign: TextAlign.center,),
+              const Text("Vous etes en panne et vous avez besoin d'un depaneur le plus proche de votre position ?",style: TextStyle(fontWeight: FontWeight.bold,fontSize:18,fontFamily: "Poppins"),textAlign: TextAlign.center,),
             ],
           )
       ),
@@ -104,7 +105,7 @@ class _PageIntroductiveState extends State<PageIntroductive> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
+      backgroundColor: Colors.white70,
       extendBodyBehindAppBar: true,
 
       appBar: AppBar(
@@ -132,7 +133,12 @@ class _PageIntroductiveState extends State<PageIntroductive> {
             Navigator.push(context, MaterialPageRoute(builder: (context) {
             return PageServices();
             },));
-          }, child: Text("Passer",style: TextStyle(color: Colors.orange,fontFamily: "Poppins",fontSize: 20),))
+          }, child: Row(
+            children: [
+              Text("Passer",style: TextStyle(color: Colors.orange,fontFamily: "Poppins",fontSize: 20),),
+              SizedBox(width:20,)
+            ],
+          ))
         ],
       ),
 
@@ -157,7 +163,7 @@ class _PageIntroductiveState extends State<PageIntroductive> {
 
 
       bottomSheet:BottomSheet(
-        backgroundColor: Colors.orange,
+        backgroundColor: Colors.black12,
         onClosing: () {
 
       }, builder: (context) {

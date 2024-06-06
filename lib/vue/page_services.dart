@@ -38,7 +38,7 @@ class _PageServicesState extends State<PageServices> {
             }, icon: Icon(Icons.person,color: Colors.blueAccent.shade700,size: 30,)),
           )
         ],
-        backgroundColor: Colors.black87,
+        backgroundColor: Colors.black26,
       ),
 
       body: Column(
@@ -52,7 +52,7 @@ class _PageServicesState extends State<PageServices> {
             
             decoration: BoxDecoration(
               image: DecorationImage(image:AssetImage("assets/images/place_martyrs.png")),
-              color: Colors.blueGrey,
+              color: Colors.black12,
               borderRadius: BorderRadius.circular(15)
             ),
 
@@ -84,17 +84,15 @@ class _PageServicesState extends State<PageServices> {
 
                   decoration: BoxDecoration(
                     border: Border.all(),
-                    color: Colors.blueGrey,
+                    color: Colors.black12,
                     borderRadius: BorderRadius.circular(15)
                   ),
 
                   child: Column(
                     children: [
                      listImages[index],
-                      Divider(color: Colors.white60),
-                      Text(listName[index],style: TextStyle(color: Colors.white,shadows: [
-                        Shadow(color: Colors.black87,offset: Offset(1, 1))
-                        ]))
+                      Divider(color: Colors.black38),
+                      Text(listName[index],style: TextStyle(color: Colors.black45,fontFamily: "Poppins"))
                     ],
                   ),
                 ),
