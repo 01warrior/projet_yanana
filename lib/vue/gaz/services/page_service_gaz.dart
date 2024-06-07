@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:yanana/vue/gaz/services/page_map.dart';
 
@@ -17,8 +18,8 @@ class _Page_service_gazState extends State<Page_service_gaz> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text("Lieux de recharge",style: TextStyle(color: Colors.white,fontFamily: "Poppins"),),
-        backgroundColor: Colors.black87,
+        title: Text("Lieux de recharge",style: TextStyle(fontFamily: "Poppins"),),
+        backgroundColor: Colors.black12,
       ),
 
 
@@ -29,12 +30,12 @@ class _Page_service_gazState extends State<Page_service_gaz> {
             alignment: Alignment.center,
             width: double.infinity,
             padding: EdgeInsets.all(15),
-            color: Colors.black87,
+            color: Colors.black12,
             child: DropdownMenu(
               width: 300,
               selectedTrailingIcon:Icon(Icons.arrow_drop_up,color: Colors.blue,size: 25,),
               textStyle: TextStyle(fontSize:20),
-              hintText: "Type gaz : Ex Oryx",
+              hintText: "Type de gaz : Ex Oryx",
               menuStyle:MenuStyle(
                 shape:MaterialStatePropertyAll(
                     RoundedRectangleBorder(borderRadius:BorderRadius.circular(30))
@@ -149,15 +150,29 @@ class _ListLieuxProcheState extends State<ListLieuxProche> {
               itemCount:listLieux.length,
               itemBuilder: (context, index) {
                 return GestureDetector(
-                  onTap: () {
-                    Navigator.push(context, MaterialPageRoute(
-                      builder: (context) {
-                        return WidgetMap(localisation_courant: localisation_courant,boutiqueClique: listLieux[index],);
-                      },));
+                  onTap: ()async {
+
+                    LocationPermission permission = await Geolocator.checkPermission();
+                    if (permission == LocationPermission.denied)
+                    {
+                      permission = await Geolocator.requestPermission();
+                    }
+                    else
+                    {
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (context) {
+                          return WidgetMap(localisation_courant: localisation_courant,boutiqueClique: listLieux[index],);
+                        },));
+                    }
+
                   },
 
                   child: Card(
-                    child: ListTile(contentPadding: EdgeInsets.all(10),
+                    surfaceTintColor: Colors.white,
+                    child: ListTile(
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                      tileColor: Colors.black12,
+                      contentPadding: EdgeInsets.all(10),
                       leading: Icon(Icons.maps_home_work,size: 35,),
                       title: Text(listLieux[index]["lieu"]),
                       trailing:listDistance[index]<6? Text("${listDistance[index]} Km",
@@ -181,7 +196,10 @@ class _ListLieuxProcheState extends State<ListLieuxProche> {
           }
           else if(snapshot.connectionState==ConnectionState.waiting)
           {
-            return Center(child: CircularProgressIndicator());
+            return SpinKitWaveSpinner(
+              color: Colors.orange,
+              size: 80.0,
+            );
           }
           else
             return Text("Aucune donné");
@@ -196,7 +214,6 @@ class _ListLieuxProcheState extends State<ListLieuxProche> {
 
     //je Verifie letat de la permission
     LocationPermission permission = await Geolocator.checkPermission();
-
 
     if (permission == LocationPermission.denied) {
 
@@ -214,9 +231,10 @@ class _ListLieuxProcheState extends State<ListLieuxProche> {
         );
       },);
 
-      // L'utilisateur n'a pas encore accordé la permission de localisation.
-      // afficher un message ou demander à nouveau la permission.
     }
+
+    // L'utilisateur n'a pas encore accordé la permission de localisation.
+    // afficher un message ou demander à nouveau la permission.
 
     else if (permission == LocationPermission.deniedForever) {
       // L'utilisateur a refusé la permission de localisation de façon permanente.
@@ -232,7 +250,9 @@ class _ListLieuxProcheState extends State<ListLieuxProche> {
             )
           ],
         );
-      },);
+      },
+      );
+      Navigator.of(context).pop();
     }
 
     else {
