@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:yanana/vue/gaz/boutiquiers/gestion_boutiquier.dart';
 import 'package:yanana/vue/gaz/boutiquiers/listener.dart';
 import 'package:yanana/vue/gaz/boutiquiers/statisique_boutiquier.dart';
-import 'package:yanana/vue/gaz/boutiquiers/vente_boutiquier.dart';
+import 'package:yanana/vue/gaz/boutiquiers/gest_boutiquier.dart';
 import 'package:provider/provider.dart';
-
+import 'parametre.dart';
 class Accueil_boutiquier extends StatefulWidget {
   const Accueil_boutiquier({super.key});
 
@@ -16,13 +16,13 @@ class _Accueil_boutiquierState extends State<Accueil_boutiquier> {
 
   List listPageBoutiquier=[
     {
-      "page":const VenteBoutiquier(),
-      "titre":"Ventes"
+      "page":const GestBoutiquier(),
+      "titre":"Gestion"
     },
 
     {
-      "page":const GestionBoutiquier(),
-      "titre":"Stockage"
+      "page":const Param(),
+      "titre":"Parametre"
     },
 
     {
@@ -86,7 +86,7 @@ class _Accueil_boutiquierState extends State<Accueil_boutiquier> {
           ),
           BottomNavigationBarItem(
               icon:Icon(Icons.manage_history_rounded),
-            label:"Gestion",
+            label:"Parametre",
           ),
           BottomNavigationBarItem(
               icon:Icon(Icons.graphic_eq_outlined),

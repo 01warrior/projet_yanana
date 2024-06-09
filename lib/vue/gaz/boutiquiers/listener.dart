@@ -12,6 +12,53 @@ class ListenerBoutiq extends ChangeNotifier{
   int _qteSodigaz12 = 0;
   bool _nonRecupData = true;
 
+  bool _dispoOryx6 = false;
+  bool _dispoOryx12 = false;
+  bool _dispoTotal12 = false;
+  bool _dispoTotal6 = false;
+  bool _dispoPegaz12 = false;
+  bool _dispoPegaz6 = false;
+  bool _dispoSodigaz12 = false;
+  bool _dispoSodigaz6 = false;
+
+  bool _vendOryx = false;
+  bool _vendTotal = false;
+  bool _vendPegaz = false;
+  bool _vendSodigaz = false;
+  List _listGazVendu = [];
+  List<String> _listGazDispo =  [];
+
+  List get getListGazVendu => _listGazVendu;
+  List get getListGazDispo => _listGazDispo;
+
+  bool get getDispoOryx6 => _dispoOryx6;
+  set setDispoOryx6(bool d){
+    _dispoOryx6 = d;
+    notifyListeners();
+  }
+  
+  bool get getVendOryx => _vendOryx;
+  set setVendOryx(bool v){
+    _vendOryx = v;
+    notifyListeners();
+  }
+  bool get getVendTotal => _vendTotal;
+  set setVendTotal(bool v){
+    _vendTotal = v;
+    notifyListeners();
+  }
+  bool get getVendPegaz => _vendPegaz;
+  set setVendPegaz(bool v){
+    _vendPegaz = v;
+    notifyListeners();
+  }
+  bool get getVendSodigaz => _vendSodigaz;
+  set setVendSodigaz(bool v){
+    _vendSodigaz = v;
+    notifyListeners();
+  }
+
+
   bool get getNonRecupData => _nonRecupData;
   set setNonRecupData(bool r){
     _nonRecupData = r;
