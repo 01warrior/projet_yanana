@@ -21,7 +21,7 @@ class _GestBoutiquierState extends State<GestBoutiquier> {
   Widget build(BuildContext context){
     final ecoutStock = Provider.of<ListenerBoutiq>(context);
     return ListView.builder(
-        padding:EdgeInsets.all(12.0),
+        padding:EdgeInsets.all(15.0),
         itemCount: ecoutStock.getListGazVendu.length,
         itemBuilder: (context,index){
           String name = ecoutStock.getListGazVendu[index];
@@ -29,17 +29,19 @@ class _GestBoutiquierState extends State<GestBoutiquier> {
           return Column(
             children: [
               ListTile(
+                contentPadding: EdgeInsets.all(15),
                 shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                tileColor:name.contains('Oryx') ? Colors.orange : name.contains('Total') ? Colors.blue : name.contains('Sodigaz') ? Colors.blueAccent : Colors.green,
-                leading: Icon(Icons.gas_meter,size:40),
-                title: Text(name),
+                tileColor:name.contains('Oryx',) ? Colors.red.shade300: name.contains('Total') ? Colors.orange.shade300 : name.contains('Sodigaz') ? Colors.blueAccent.shade200 : Colors.green.shade300,
+                leading: Icon(Icons.gas_meter,size:40,color: Colors.white70,),
+                title: Text(name,style: TextStyle(fontFamily: "Poppins"),),
                 trailing: Checkbox(
                   value: ecoutStock.getListGazDispo.contains(name), 
                   onChanged: (e){
                     showDialog(
                       context: context, 
                       builder: (context) => AlertDialog(
-                        title: Text('Valider?'),
+                        title: Text('Validation'),
+                        content: Text("Vous confirmez que vous avez ce produit ??"),
                         actions: [
                           TextButton(
                             onPressed: ()async{

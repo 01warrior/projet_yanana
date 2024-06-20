@@ -10,51 +10,103 @@ class Param extends StatelessWidget{
 
     return Scaffold(
       body: Container(
-        padding:EdgeInsets.only(top:50),
-        child:Column(
-          children: [
-            ListTile(
-              title:Text('Profil',style: TextStyle(fontStyle: FontStyle.italic,fontWeight:FontWeight.bold),),
-              onTap: (){},
-            ),
-            Divider(
-              height:0
-            ),
-            ListTile(
-              title:Text('Localisation',style: TextStyle(fontStyle: FontStyle.italic,fontWeight:FontWeight.bold)),
-              onTap: (){
+        padding:EdgeInsets.all(20),
+        child:Container(
+          padding: EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15),
+            color: Colors.black12
+          ),
+          child: Column(
+            children: [
+              ListTile(
+                leading: Container(
+                  height: 50,
+                  width: 50,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(100),
+                    color: Colors.white
+                  ),
+                  child: Icon(Icons.person),
+                ),
+                title:Text('Profil',style: TextStyle(fontStyle: FontStyle.italic,fontWeight:FontWeight.bold),),
+                onTap: (){},
+              ),
+              Divider(
+                height:10
+              ),
+              ListTile(
+                leading: Container(
+                  height: 50,
+                  width: 50,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(100),
+                      color: Colors.white
+                  ),
+                  child: Icon(Icons.map),
+                ),
+                title:Text('Localisation',style: TextStyle(fontStyle: FontStyle.italic,fontWeight:FontWeight.bold)),
+                onTap: (){
 
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => Localisation() )
-                );
-               locateInstruction(context);
-              },
-            ),
-            Divider(
-              height:0
-            ),
-            ListTile(
-              title:Text('Gaz vendu',style: TextStyle(fontStyle: FontStyle.italic,fontWeight:FontWeight.bold)),
-              onTap: (){
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => GazVendu() )
-                );
-              },
-            ),
-            Divider(
-              height:0
-            ),
-            ListTile(
-              title:Text('Deconnexion',style: TextStyle(fontStyle: FontStyle.italic,fontWeight:FontWeight.bold)),
-              onTap: (){},
-            ),
-            Divider(
-              height:0
-            )
-          ],
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => Localisation() )
+                  );
+                 locateInstruction(context);
+                },
+              ),
+              Divider(
+                height:10
+              ),
+              ListTile(
+                leading: Container(
+                  height: 50,
+                  width: 50,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(100),
+                      color: Colors.white
+                  ),
+                  child: Icon(Icons.gas_meter),
+                ),
+                title:Text('Vos marques de gaz vendu',style: TextStyle(fontStyle: FontStyle.italic,fontWeight:FontWeight.bold)),
+                onTap: (){
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => GazVendu() )
+                  );
+                },
+              ),
+              SizedBox(
+                width: 300,
+                child: Divider(
+                  height:10
+                ),
+              ),
+              ListTile(
+                leading: Container(
+                  height: 50,
+                  width: 50,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(100),
+                      color: Colors.white
+                  ),
+                  child: Icon(Icons.logout,color: Colors.red,),
+                ),
+                title:Text('Deconnexion',style: TextStyle(fontStyle: FontStyle.italic,fontWeight:FontWeight.bold)),
+                onTap: (){},
+              ),
+              Divider(
+                height:10
+              )
+            ],
+          ),
         )
       ),
-      floatingActionButton: FloatingActionButton(onPressed: (){}),
+      floatingActionButton: FloatingActionButton(
+        elevation: 10,
+        backgroundColor: Colors.white,
+          onPressed: (){
+        
+      },
+      child: Icon(Icons.contact_phone_outlined,),),
     );
   }
   locateInstruction(BuildContext context) {

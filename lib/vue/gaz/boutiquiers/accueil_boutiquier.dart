@@ -45,7 +45,7 @@ class _Accueil_boutiquierState extends State<Accueil_boutiquier> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar:AppBar(
-          title: Text("${listPageBoutiquier[indexCourant]["titre"]}",style: TextStyle(color: Colors.white),),
+          title: Text("${listPageBoutiquier[indexCourant]["titre"]}",style: TextStyle(color: Colors.black),),
           centerTitle: true,
           actions: [
             Padding(
@@ -54,11 +54,10 @@ class _Accueil_boutiquierState extends State<Accueil_boutiquier> {
                   style: const ButtonStyle(backgroundColor: MaterialStatePropertyAll(Colors.white)),
                   onPressed: () {
       
-                  }, icon: Icon(Icons.person,color: Colors.blueAccent.shade700,size: 30,)),
+                  }, icon: Icon(Icons.person,color: Colors.blueAccent.shade700,size: 20,)),
             )
           ],
-      
-          backgroundColor: Colors.black87,
+          surfaceTintColor: Colors.black12,
         ),
       
         body: listPageBoutiquier[indexCourant]["page"],

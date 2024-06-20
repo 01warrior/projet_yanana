@@ -35,7 +35,7 @@ class _PageServicesState extends State<PageServices> {
                   builder: (context) {
                   return VerifConnexion();
                 },));
-            }, icon: Icon(Icons.person,color: Colors.blueAccent.shade700,size: 30,)),
+            }, icon: Icon(Icons.person,color: Colors.blueAccent.shade700,size: 20,)),
           )
         ],
         backgroundColor: Colors.black26,

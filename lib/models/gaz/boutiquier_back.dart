@@ -8,6 +8,7 @@ class  BoutiquierBack {
   String id = FirebaseAuth.instance.currentUser!.uid;
   
   var nomGaz =["Oryx6","Oryx12","Total6","Total12","Sodigaz6","Sodigaz12","Pegaz6","Pegaz12"];
+
   recupData(BuildContext context)async{
     final ecoutStock = Provider.of<ListenerBoutiq>(context,listen: false);
     print(id);
