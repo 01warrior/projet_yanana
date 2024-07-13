@@ -11,7 +11,8 @@ class ListenerBoutiq extends ChangeNotifier{
   int _qteSodigaz6 = 0;
   int _qteSodigaz12 = 0;
   bool _nonRecupData = true;
-
+  bool _dataFetch = true;//VAR PERMETTANT DE SAVOIR SI LES DATAS NIVEAU ACCUEIL(listes de prod dispo) SONT RECUP
+  
   bool _dispoOryx6 = false;
   bool _dispoOryx12 = false;
   bool _dispoTotal12 = false;
@@ -20,6 +21,7 @@ class ListenerBoutiq extends ChangeNotifier{
   bool _dispoPegaz6 = false;
   bool _dispoSodigaz12 = false;
   bool _dispoSodigaz6 = false;
+  
 
   bool _vendOryx = false;
   bool _vendTotal = false;
@@ -28,8 +30,22 @@ class ListenerBoutiq extends ChangeNotifier{
   List _listGazVendu = [];
   List<String> _listGazDispo =  [];
 
+  bool _verifyCompte = false; //VAR PRENANT L'ETAT DU COMPTE VERIFIER OU NON
+
   List get getListGazVendu => _listGazVendu;
   List get getListGazDispo => _listGazDispo;
+
+  bool get getVerifyCompte => _verifyCompte;
+  set setVerifyCompte(bool v){
+    _verifyCompte = v;
+    notifyListeners();
+  }
+
+  bool get getDataFetch => _dataFetch;
+  set setDataFetch(bool d){
+    _dataFetch = d;
+    notifyListeners();
+  }
 
   bool get getDispoOryx6 => _dispoOryx6;
   set setDispoOryx6(bool d){

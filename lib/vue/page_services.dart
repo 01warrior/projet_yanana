@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yanana/vue/gaz/connexion/page_connexion.dart';
-import 'package:yanana/vue/gaz/services/page_service_gaz.dart';
+import 'package:yanana/vue/gaz/services/accueil_gaz.dart';
 
 
 class PageServices extends StatefulWidget {
@@ -25,19 +25,7 @@ class _PageServicesState extends State<PageServices> {
         centerTitle: true,
         title: Text("Services",style: TextStyle(color: Colors.white,fontFamily: "Poppins"),),
 
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 20.0),
-            child: IconButton.outlined(
-              style: ButtonStyle(backgroundColor: MaterialStatePropertyAll(Colors.white)),
-                onPressed: () {
-                Navigator.push(context, MaterialPageRoute(
-                  builder: (context) {
-                  return VerifConnexion();
-                },));
-            }, icon: Icon(Icons.person,color: Colors.blueAccent.shade700,size: 20,)),
-          )
-        ],
+        
         backgroundColor: Colors.black26,
       ),
 
@@ -73,7 +61,7 @@ class _PageServicesState extends State<PageServices> {
                 onTap: () {
                   index==0?Navigator.push(context,
                       MaterialPageRoute(builder: (context) {
-                    return Page_service_gaz();
+                    return const AccueilGaz();
                   },)):null;
                 },
 

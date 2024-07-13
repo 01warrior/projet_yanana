@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:yanana/vue/gaz/boutiquiers/parametre/gaz_vendu.dart';
 import 'package:yanana/vue/gaz/boutiquiers/parametre/localisation.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:yanana/vue/gaz/boutiquiers/parametre/contact.dart';
 
 class Param extends StatelessWidget{
   const Param({super.key});
@@ -91,7 +93,25 @@ class Param extends StatelessWidget{
                   child: Icon(Icons.logout,color: Colors.red,),
                 ),
                 title:Text('Deconnexion',style: TextStyle(fontStyle: FontStyle.italic,fontWeight:FontWeight.bold)),
-                onTap: (){},
+                onTap: (){
+                  showDialog(
+                    context: context, 
+                    builder:(context) => AlertDialog(
+                      title:Text('Se déconnecter?'),
+                      actions:[
+                        TextButton(
+                          onPressed:(){FirebaseAuth.instance.signOut();Navigator.of(context).pop();},
+                          child:Text('Oui')
+                        ),
+                        TextButton(
+                          onPressed:(){Navigator.of(context).pop();},
+                          child:Text('Non')
+                        )
+                      ]
+                    )
+                  );
+                  
+                },
               ),
               Divider(
                 height:10
@@ -100,13 +120,14 @@ class Param extends StatelessWidget{
           ),
         )
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton:const Contact()
+      /*FloatingActionButton(
         elevation: 10,
         backgroundColor: Colors.white,
           onPressed: (){
         
       },
-      child: Icon(Icons.contact_phone_outlined,),),
+      child: Icon(Icons.contact_phone_outlined,),),*/
     );
   }
   locateInstruction(BuildContext context) {

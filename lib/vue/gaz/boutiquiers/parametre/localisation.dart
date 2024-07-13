@@ -31,6 +31,9 @@ class _LocalisationState extends State<Localisation> {
 
   Future<void> prendreLocalisationCourant()async
   {
+    // ERREUR QUAND LE USER 
+    //                      REFUSE L'ACCES A SA POSITION 
+    //                                                      A CORRIGER
     localisation_courant = await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.high,
     );
@@ -49,7 +52,7 @@ class _LocalisationState extends State<Localisation> {
       setState(() {
         markeur.add(
             Marker(
-                markerId: MarkerId("Position du l'utilisateur"),
+                markerId: MarkerId("Position de l'utilisateur"),
                 icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
                 position: LatLng(localisation_courant!.latitude, localisation_courant!.longitude)
             )

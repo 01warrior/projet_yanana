@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geolocator/geolocator.dart';
@@ -9,7 +10,7 @@ import 'package:yanana/vue/gaz/services/page_service_gaz.dart';
 class WidgetMap extends StatefulWidget {
 
   Position? localisation_courant;
-  final Map boutiqueClique;
+  final GeoPoint boutiqueClique;
 
   WidgetMap(
       {super.key,
@@ -33,7 +34,7 @@ class _WidgetMapState extends State<WidgetMap> {
         // debut de navigation
         origin: WayPoint(latitude: widget.localisation_courant!.latitude, longitude: widget.localisation_courant!.longitude),
         // destination
-        destination: WayPoint(latitude: widget.boutiqueClique["latitude"], longitude:  widget.boutiqueClique["longitude"]),
+        destination: WayPoint(latitude: widget.boutiqueClique.latitude, longitude:  widget.boutiqueClique.longitude),
         // choisir destination long appui
         setDestinationWithLongTap: false,
         simulateRoute: false,
@@ -67,19 +68,19 @@ class _WidgetMapState extends State<WidgetMap> {
     distance=Geolocator.distanceBetween(
         widget.localisation_courant!.latitude,
         widget.localisation_courant!.longitude,
-        widget.boutiqueClique["latitude"],
-        widget.boutiqueClique["longitude"]).toInt()/1000;
+        widget.boutiqueClique.latitude,
+        widget.boutiqueClique.longitude).toInt()/1000;
 
     print(distance);
 
     if(distance<0.15)
     {
-      Navigator.push(context, MaterialPageRoute(builder: (context) {
+     /* Navigator.push(context, MaterialPageRoute(builder: (context) {
           return Page_service_gaz();
-        },));
+        },));*/
 
 
-      return showDialog(context: context, builder: (context) {
+       showDialog(context: context, builder: (context) {
         return AlertDialog(
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -126,10 +127,12 @@ class _WidgetMapState extends State<WidgetMap> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
-    Timer.periodic(Duration(seconds: 10), (Timer compteur) {
+    
+///////////////////////////////////////// REVOIR CA CAR PROVOQUE DES BUGS ON APP/////////////////////////////////////
+///
+    /*Timer.periodic(Duration(seconds: 10), (Timer compteur) {
       TenirAjourPositionCheckDistance();
-    });
+    });*/
   }
 
   @override

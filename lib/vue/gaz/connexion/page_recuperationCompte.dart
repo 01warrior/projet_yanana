@@ -16,6 +16,12 @@ class _RecupCompteState extends State<RecupCompte> {
   Widget build(BuildContext context){
     return Scaffold(
     //  resizeToAvoidBottomInset: false,
+      extendBodyBehindAppBar:true ,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        //couleur des icone a white
+        iconTheme: IconThemeData(color: Colors.white),
+      ),
       body:Container(
         padding:EdgeInsets.all(20),
         decoration: BoxDecoration(
@@ -66,10 +72,11 @@ class _RecupCompteState extends State<RecupCompte> {
                       width:double.infinity,
                       child: ElevatedButton(
                         onPressed: ()async{
-                          setState(() {
-                            _loading = true;
-                          });
+                          
                           if (_formKey.currentState!.validate()){
+                            setState(() {
+                              _loading = true;
+                            });
                             await resetPassword();
                             if(_emailSend){
                               ScaffoldMessenger.of(context).showSnackBar(

@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:yanana/vue/gaz/boutiquiers/gestion_boutiquier.dart';
+import 'package:yanana/models/gaz/boutiquier_back.dart';
+import 'package:yanana/vue/gaz/boutiquiers/waiting_page.dart';
 import 'package:yanana/vue/gaz/boutiquiers/listener.dart';
-import 'package:yanana/vue/gaz/boutiquiers/statisique_boutiquier.dart';
 import 'package:yanana/vue/gaz/boutiquiers/gest_boutiquier.dart';
 import 'package:provider/provider.dart';
 import 'parametre.dart';
+import 'package:shimmer/shimmer.dart';
+
+// class implementant l'accueil 
+                            //du boutiquier 
 class Accueil_boutiquier extends StatefulWidget {
   const Accueil_boutiquier({super.key});
-
   @override
   State<Accueil_boutiquier> createState() => _Accueil_boutiquierState();
 }
@@ -19,44 +22,29 @@ class _Accueil_boutiquierState extends State<Accueil_boutiquier> {
       "page":const GestBoutiquier(),
       "titre":"Gestion"
     },
-
     {
       "page":const Param(),
       "titre":"Parametre"
     },
-
-    {
+   /* {
       "page":const Statisique_boutiquier(),
       "titre":"Statistiques"
-    },
-
-
-
+    },*/
   ];
 
   var indexCourant=0;
 
- /* @override
-  void initState(){
-    super.initState();
-    BoutiquierBack().recupData();
-  }*/
+  
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    final ecout = Provider.of<ListenerBoutiq>(context);
+
+   
+    if(ecout.getVerifyCompte) return Scaffold(
         appBar:AppBar(
           title: Text("${listPageBoutiquier[indexCourant]["titre"]}",style: TextStyle(color: Colors.black),),
           centerTitle: true,
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 20.0),
-              child: IconButton.outlined(
-                  style: const ButtonStyle(backgroundColor: MaterialStatePropertyAll(Colors.white)),
-                  onPressed: () {
-      
-                  }, icon: Icon(Icons.person,color: Colors.blueAccent.shade700,size: 20,)),
-            )
-          ],
+          
           surfaceTintColor: Colors.black12,
         ),
       
@@ -87,13 +75,86 @@ class _Accueil_boutiquierState extends State<Accueil_boutiquier> {
               icon:Icon(Icons.manage_history_rounded),
             label:"Parametre",
           ),
-          BottomNavigationBarItem(
+          /*BottomNavigationBarItem(
               icon:Icon(Icons.graphic_eq_outlined),
             label:"Statistique",
-          ),
+          ),*/
         ]),
       
       );
+      else return WaitingPage();
     
+  }
+}
+
+// class permettant d'attendre le chargement des datas 
+//                                        avant d'afficher la page d'accueil du boutiquier 
+                                                                       //ou la page d'attente de verification de compte
+class WaitLoadingData extends StatefulWidget{
+  const WaitLoadingData({super.key});
+
+  @override
+  State<WaitLoadingData> createState() => _WaitLoadingDataState();
+}
+
+class _WaitLoadingDataState extends State<WaitLoadingData> {
+
+  @override
+  void initState(){
+    super.initState();
+    BoutiquierBack().recupData(context);
+  }
+
+  @override
+  Widget build(BuildContext context){
+
+    final ecout = Provider.of<ListenerBoutiq>(context);
+    if(ecout.getNonRecupData) 
+      return LoadingData();
+    else 
+      return Accueil_boutiquier();
+
+  }
+}
+
+
+// page implementant le shimmer qui simule l'attente
+class LoadingData extends StatelessWidget{
+  const LoadingData({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Scaffold(
+      appBar: AppBar(),
+      body:Shimmer.fromColors(
+        
+        baseColor: Colors.white,
+        highlightColor: Colors.grey.shade100,
+        child:Padding(
+          padding:EdgeInsets.all(12.0),
+          child: ListView.builder(
+            itemCount: 5,
+            itemBuilder: (context,ind) =>
+              Column(
+                children: [
+                  ListTile(
+                    titleTextStyle: TextStyle(height:14.0),
+                    contentPadding: EdgeInsets.all(15),
+                    tileColor:Colors.grey.shade100,
+                    shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                    leading:const CircleAvatar(radius:20),
+                    title:Container(width:10,color:Colors.red,height:14.0),//  SizedBox(child: Divider(height:30),width:30,height:30)
+                    trailing: Container(width:20.0,height:20.0,color:Colors.white),
+                  ),
+                  SizedBox(height:20)
+                ],
+              ),
+             
+            
+          ),
+        ) ,
+      )
+    );
   }
 }

@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:yanana/vue/gaz/boutiquiers/listener.dart';
 import 'package:provider/provider.dart';
+
 class  BoutiquierBack {
 
   String id = FirebaseAuth.instance.currentUser!.uid;
@@ -16,8 +17,8 @@ class  BoutiquierBack {
       
       var db = FirebaseFirestore.instance.collection('users').doc(id).collection('gaz');
       await db.get()
-      .then((value) {
-        ecoutStock.setNonRecupData=false;
+      .then((value)async {
+        
         if(value.size ==0 ){
           for(var n in nomGaz){//PERMET D'ENR TOUT LES GAZ DISPO DANS LA BD QUAND VIENT FIRSTLY
             db.doc(n).set( {'vend':false,'dispo':false},SetOptions(merge: true));
@@ -29,7 +30,6 @@ class  BoutiquierBack {
           for( var doc in value.docs ){
             var dat = doc.data() ;
             if(doc.id == nomGaz[0]){
-              ecoutStock.setQteOryx6 = dat["quantite"] ;
               if(dat['vend']){
                 ecoutStock.setVendOryx = true;
                 ecoutStock.getListGazVendu.addAll(['Oryx6','Oryx12']);
@@ -39,12 +39,10 @@ class  BoutiquierBack {
               }
 
             }else if(doc.id == "Oryx12"){
-              ecoutStock.setQteOryx12 = dat['quantite'] ;
               if(dat['dispo']){
                 ecoutStock.getListGazDispo.add('Oryx12');
               }
             }else if(doc.id == "Total6"){
-              ecoutStock.setQteTotal6 = dat["quantite"];
               if(dat['vend']){
                 ecoutStock.setVendTotal = true;
                 ecoutStock.getListGazVendu.addAll(['Total6','Total12']);
@@ -54,13 +52,11 @@ class  BoutiquierBack {
               }
 
             }else if(doc.id == "Total12"){
-              ecoutStock.setQteTotal12 = dat["quantite"];
               if(dat['dispo']){
                 ecoutStock.getListGazDispo.add('Total12');
               }
 
             }else if(doc.id == "Sodigaz6"){
-              ecoutStock.setQteSodigaz6 = dat["quantite"];
               if(dat['vend']){
                 ecoutStock.setVendSodigaz = true;
                 ecoutStock.getListGazVendu.addAll(['Sodigaz6','Sodigaz12']);
@@ -69,13 +65,11 @@ class  BoutiquierBack {
                 ecoutStock.getListGazDispo.add('Sodigaz6');
               }
             }else if(doc.id == nomGaz[5]){
-              ecoutStock.setQteSodigaz12 = dat["quantite"];
               if(dat['dispo']){
                 ecoutStock.getListGazDispo.add('Sodigaz12');
               }
 
             }else if(doc.id == nomGaz[6]){
-              ecoutStock.setQtePegaz6 = dat["quantite"];
               if(dat['vend']){
                 ecoutStock.setVendPegaz = true;
                 ecoutStock.getListGazVendu.addAll(['Pegaz6','Pegaz12']);
@@ -84,15 +78,22 @@ class  BoutiquierBack {
                 ecoutStock.getListGazDispo.add('Pegaz6');
               }
             }else if(doc.id == nomGaz[7]){
-              ecoutStock.setQtePegaz12 = dat["quantite"];
               if(dat['dispo']){
                 ecoutStock.getListGazDispo.add('Pegaz12');
               }
             }
           }
+
         }
-      },onError: (e){ecoutStock.setNonRecupData=true;}).timeout(const Duration(seconds: 10));
+        await FirebaseFirestore.instance.collection('users').doc(id).get().then(
+          (value){
+            final datas = value.data()!;
+            ecoutStock.setVerifyCompte = datas['verify'];
+          },onError: (e) => null );
+        ecoutStock.setNonRecupData=false;
+      },onError: (e){ecoutStock.setNonRecupData=true;});
     }
+    
   }
   
   Future<void> updateGazVendu({required BuildContext context,required String gaz6,required String gaz12,required bool ch})async{

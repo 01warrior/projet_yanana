@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:yanana/vue/gaz/connexion/listener.dart';
 import 'package:yanana/vue/page_introductive.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -17,16 +18,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => ListenerBoutiq(),
-      child: MaterialApp(
+    return MultiProvider(
+      providers:[
+        ChangeNotifierProvider(create: (context) => ListenerBoutiq()), 
+        ChangeNotifierProvider(create: (context) => ListenerCo()), 
+      ],
+      child: MaterialApp( 
         debugShowCheckedModeBanner: false,
         title: 'Yanana',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueAccent.shade700),
+          
           useMaterial3: true,
         ),
-        home:PageIntroductive(),
+        home:const PageIntroductive(),
       ),
     );
   }
