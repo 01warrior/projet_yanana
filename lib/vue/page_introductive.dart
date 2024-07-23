@@ -2,6 +2,7 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:yanana/vue/page_services.dart';
 import 'package:lottie/lottie.dart';
+import 'package:yanana/vue/widget/animation_fade.dart';
 
 class PageIntroductive extends StatefulWidget {
   const PageIntroductive({super.key});
@@ -25,7 +26,10 @@ class _PageIntroductiveState extends State<PageIntroductive> {
                 padding: const EdgeInsets.all(8.0),
                 child: SizedBox(height: 80,),
               ),
-              Text("Bienvenue sur YANANA votre application qui vous facilite la vie sur plusieurs plans.",style: TextStyle(fontWeight: FontWeight.bold,fontSize:18,fontFamily: "Poppins"),textAlign: TextAlign.center,),
+              FadeInWidget(
+                  direction:"bottom",
+                  child: Text("Bienvenue sur YANANA votre application qui vous facilite la vie sur plusieurs plans.",style: TextStyle(fontWeight: FontWeight.bold,fontSize:18,fontFamily: "Poppins"),textAlign: TextAlign.center,)
+              ),
             ],
           )
       ),
@@ -40,7 +44,10 @@ class _PageIntroductiveState extends State<PageIntroductive> {
             children: [
               Lottie.asset('assets/images/anim2.json'),
               const SizedBox(height: 80,),
-              const Text("Localiser les point de recharge de gaz les plus proche pour eviter de tourner dans toute la ville de ouaga.",style: TextStyle(fontWeight: FontWeight.bold,fontSize:18 ,fontFamily: "Poppins"),textAlign: TextAlign.center,),
+              FadeInWidget(
+                  direction:"bottom",
+                  child: const Text("Localiser les point de recharge de gaz les plus proche pour eviter de tourner dans toute la ville de ouaga.",style: TextStyle(fontWeight: FontWeight.bold,fontSize:18 ,fontFamily: "Poppins"),textAlign: TextAlign.center,)
+              ),
             ],
           )
       ),
@@ -55,7 +62,10 @@ class _PageIntroductiveState extends State<PageIntroductive> {
             children: [
               Lottie.asset('assets/images/anim5.json'),
               SizedBox(height: 80,),
-              const Text("Vous etes en panne et vous avez besoin d'un depaneur le plus proche de votre position ?",style: TextStyle(fontWeight: FontWeight.bold,fontSize:18,fontFamily: "Poppins"),textAlign: TextAlign.center,),
+              FadeInWidget(
+                  direction:"bottom",
+                  child: const Text("Vous etes en panne et vous avez besoin d'un depaneur le plus proche de votre position ?",style: TextStyle(fontWeight: FontWeight.bold,fontSize:18,fontFamily: "Poppins"),textAlign: TextAlign.center,)
+              ),
             ],
           )
       ),

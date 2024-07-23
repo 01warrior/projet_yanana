@@ -19,6 +19,7 @@ class _LocalisationState extends State<Localisation> {
 
   Position? localisation_courant;
 
+
   //liste de marqueur
   Set<Marker> markeur={
 
@@ -34,6 +35,10 @@ class _LocalisationState extends State<Localisation> {
     // ERREUR QUAND LE USER 
     //                      REFUSE L'ACCES A SA POSITION 
     //                                                      A CORRIGER
+
+
+    //revu a la ligne ::: 108 a 135 lors du click de luser
+
     localisation_courant = await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.high,
     );
@@ -66,7 +71,7 @@ class _LocalisationState extends State<Localisation> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    prendreLocalisationCourant().then((value) => _moveCameraToCurrentLocation(),);
+    //prendreLocalisationCourant().then((value) => _moveCameraToCurrentLocation(),);
   }
 
   @override
@@ -94,29 +99,54 @@ class _LocalisationState extends State<Localisation> {
             title: Text("confirmation",style: TextStyle(fontFamily: "Poppins"),),
             content: Text("Voulez vous confirmer votre position et l'enregistrer ?",style: TextStyle(fontFamily: "Poppins"),),
             actions: [
+              TextButton(onPressed: () {
+                Navigator.pop(context);
+              }, child: Text("Non")),
+
               TextButton(
                   onPressed: ()async {
 
+                    showModalBottomSheet(context: context, builder: (context) {
+                      return Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: CircularProgressIndicator(color: Colors.orange,),
+                      );
+                    },);
+
+                    //je redemande la permission lors du clic au cas ou luser avait refusé au debut
+                    LocationPermission permission = await Geolocator.checkPermission();
+
+                    if (permission == LocationPermission.denied)
+                    {
+                      permission = await Geolocator.requestPermission();
+                    }
+                    //si cest accordé
+                    else
+                      {
+                        //je reprend la localisation et je met a jour la position du camera
+                        await prendreLocalisationCourant();
+
+                        //j'enleve les marqueur qui etait la (sa position ancienne)
+                        markeur.removeAll(markeur);
+
+                        setState(() {
+                          markeur.add(
+                              Marker(
+                                  markerId: MarkerId("Position du l'utilisateur"),
+                                  icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+                                  position: LatLng(localisation_courant!.latitude, localisation_courant!.longitude)
+                              )
+                          );
+                        });
+
+                        _moveCameraToCurrentLocation();
+
+                      }
+
+                    Navigator.pop(context);
                     Navigator.pop(context);
 
-                    //je reprend la localisation et je met a jour la position du camera
-                    await prendreLocalisationCourant();
-
-                    markeur.removeAll(markeur);
-
-                    setState(() {
-                      markeur.add(
-                          Marker(
-                              markerId: MarkerId("Position du l'utilisateur"),
-                              icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
-                              position: LatLng(localisation_courant!.latitude, localisation_courant!.longitude)
-                          )
-                      );
-                    });
-
-                    _moveCameraToCurrentLocation();
-
-                  }, child: Text("Oui Oui")
+                  }, child: Text("Oui Oui",style: TextStyle(fontFamily: "Poppins"),)
               )
             ],
 

@@ -78,43 +78,40 @@ class _WidgetMapState extends State<WidgetMap> {
      /* Navigator.push(context, MaterialPageRoute(builder: (context) {
           return Page_service_gaz();
         },));*/
-
-
-       showDialog(context: context, builder: (context) {
-        return AlertDialog(
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      showModalBottomSheet(context: context, builder: (context) {
+        return Container(
+          child: Column(
             children: [
-              Text("Succes"),
-              Icon(Icons.ac_unit,size: 40,color: Colors.green,)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text("Succes"),
+                  Icon(Icons.ac_unit,size: 40,color: Colors.green,)
+                ],
+              ),
+
+              Container(
+                height: 200,
+                child: Column(
+                  children: [
+                    Text("Vous etes arrivé a destination etes vous satisfait ?")
+                  ],
+                ),
+              ),
+
+              TextButton(onPressed: () {
+                Navigator.pop(context);
+              }, child: Text("Oui bien sur")),
+
+              TextButton(onPressed: () {
+                Navigator.pop(context);
+              }, child: Text("Pas vraiment"))
+
             ],
           ),
-          content: Container(
-            height: 200,
-            child: Column(
-              children: [
-                Text("Vous etes arrivé a destination etes vous satisfait ?")
-              ],
-            ),
-          ),
-
-          actions: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                TextButton(onPressed: () {
-
-                }, child: Text("Oui bien sur")),
-
-                TextButton(onPressed: () {
-
-                }, child: Text("Pas vraiment"))
-
-              ],
-            )
-          ],
         );
       },);
+
     }
 
     else
