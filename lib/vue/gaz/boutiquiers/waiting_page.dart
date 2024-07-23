@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 
-
+//PAGE SUR LEQUEL LE USER PATIENTE EN ATTENDANT QUE
+//                                             SON COMPTE SOIT VALIDER
 
 class WaitingPage extends StatelessWidget{
   const WaitingPage({super.key});
@@ -11,9 +12,9 @@ class WaitingPage extends StatelessWidget{
 
     return Scaffold(
       appBar: AppBar(
-        
+        title:Text('verif ismo modiaaaaaaaa')
       ),
-      body:const Placeholder(child:Text('On vas verifier ton compte dab.qui sait,peut-etre tu es un voleur'))
+      body:const Placeholder()
     );
   }
 }

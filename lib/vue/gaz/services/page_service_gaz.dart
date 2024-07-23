@@ -168,7 +168,6 @@ class _Page_service_gazState extends State<Page_service_gaz> {
               future:_switchV ? Suggest().recupLocateVend(ville: _ville, gaz: _gaz, poids: _poids)   : Suggest().recupLocate(ville: _ville, gaz: _gaz, poids: _poids)  ,  //calculerDistance(),
               builder: (context, snapshot) {
                 var datas = snapshot.data;
-                print('nbvhvbgqsfcghchjcducuydkydyuhvhfv');
                 if(snapshot.hasData)
                 {
                   if(datas!.isNotEmpty){
@@ -233,7 +232,7 @@ class _Page_service_gazState extends State<Page_service_gaz> {
                               }, 
                               child:const Text('Voir lieux de ventes'))
                           ]
-                                            ),
+                        ),
                       );
                     }
 

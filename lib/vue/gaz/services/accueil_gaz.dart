@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:yanana/vue/gaz/connexion/page_connexion.dart';
 import 'package:yanana/vue/gaz/services/page_service_gaz.dart';
 
-
+// PAGE D'ACCUEIL QUAND USER CLIQUE
+//                                  SUR L'ICONE GAZ DANS L'APP
 
 class AccueilGaz extends StatelessWidget{
   const AccueilGaz({super.key});

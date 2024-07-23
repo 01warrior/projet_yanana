@@ -7,6 +7,8 @@ import 'package:geolocator/geolocator.dart';
 
 class Suggest {
   
+// METHODE PERMETTANT DE FAIRE UNE RECHERCHE DES 
+//                                            VENDEURS QUI ONT LE GAZ DISPO
   Future<List<Map<String, dynamic>>> recupLocate({required String ville,required String gaz,required String poids})async{
     List<Map<String,dynamic>> listLocate = [];
     var loc = await Geolocator.getCurrentPosition(
@@ -19,10 +21,10 @@ class Suggest {
       for(var doc in docs){
         
         var dataSeller = doc.data();
-        if(dataSeller['ville'] == ville && dataSeller['verify'] == true){
+        if(dataSeller['ville'] == ville && dataSeller['verify'] == true){ // VERIF VOIR SI LE BOUTIQUIER EST DANS LA VILLE DU USER ET A UN COMPTE VERIFIER AVANT DE CONTINUER LES SEARCH
           final dataGaz =await  FirebaseFirestore.instance.collection('users').doc(doc.id).collection('gaz').doc('$gaz$poids').get();
           if (dataGaz['dispo']){
-            var dist = Geolocator.distanceBetween(
+            var dist = Geolocator.distanceBetween(// PERMET DE CALCULER LA DISTANCE SEPARANT LE USER DU BOUTIQUIER
               loc.latitude,
               loc.longitude,
               dataSeller['locate'].latitude,
@@ -33,7 +35,8 @@ class Suggest {
         }
       }
     });
-   
+// PERMET DE VERIFIER QUE LES DIFFERENTS 
+//                                     CHAMPS DE RECHERCHES SONT SAISIS
     listLocate.sort( (a,b) => (a['dist'] as double).compareTo(b['dist'] as double)  );
     debugPrint('$listLocate /////');
     return listLocate;
@@ -45,7 +48,8 @@ class Suggest {
     return false;
   }
 
-
+// METHODE PERMETTANT DE FAIRE UNE RECHERCHE DES 
+//                                            VENDEURS QUI N'ONT PAS LE GAZ DISPO MAIS QUI LE VENDENT
   Future<List<Map<String, dynamic>>> recupLocateVend({required String ville,required String gaz,required String poids})async{
     List<Map<String,dynamic>> listLocate = [];
     var loc = await Geolocator.getCurrentPosition(
@@ -58,10 +62,10 @@ class Suggest {
       for(var doc in docs){
         
         var dataSeller = doc.data();
-        if(dataSeller['ville'] == ville && dataSeller['verify'] == true){
+        if(dataSeller['ville'] == ville && dataSeller['verify'] == true){ // VERIF VOIR SI LE BOUTIQUIER EST DANS LA VILLE DU USER ET A UN COMPTE VERIFIER AVANT DE CONTINUER LES SEARCH
           final dataGaz =await  FirebaseFirestore.instance.collection('users').doc(doc.id).collection('gaz').doc('$gaz$poids').get();
           if (dataGaz['vend']){
-            var dist = Geolocator.distanceBetween(
+            var dist = Geolocator.distanceBetween( // PERMET DE CALCULER LA DISTANCE SEPARANT LE USER DU BOUTIQUIER
               loc.latitude,
               loc.longitude,
               dataSeller['locate'].latitude,
