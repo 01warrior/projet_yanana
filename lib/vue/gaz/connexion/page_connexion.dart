@@ -1,3 +1,4 @@
+import 'package:elegant_notification/elegant_notification.dart';
 import 'package:flutter/material.dart';
 import 'package:yanana/vue/gaz/boutiquiers/accueil_boutiquier.dart';
 import 'package:yanana/vue/gaz/connexion/listener.dart';
@@ -19,7 +20,16 @@ class VerifConnexion extends StatelessWidget{
       stream: FirebaseAuth.instance.authStateChanges(), 
       builder: ((context, snapshot) {
         if(snapshot.hasError){
-          debugPrint(' On a une erreur bro');
+          ElegantNotification.error(
+            notificationMargin:60,
+            title:  Text("Oups"),
+            description:  Text("Une erreur s'est produite", style: TextStyle(color: Colors.black)),
+            onDismiss: () {
+
+            },
+            animationDuration:Duration(seconds: 4),
+          ).show(context);
+          //debugPrint(' On a une erreur bro');
         }
         if( snapshot.hasData){
           return WaitLoadingData();
@@ -111,6 +121,17 @@ class _PageConnexionState extends State<PageConnexion> {
                               controller:_emailC,
                               validator:(val){
                                 if( val == null || val.trim().contains(' ') || val.trim() == '' ){
+
+                                  ElegantNotification.info(
+                                    notificationMargin:60,
+                                    title:  Text("Mail invalide"),
+                                    description:  Text("Saisissez un mail valide ex:exemple@gmail.com", style: TextStyle(color: Colors.black)),
+                                    onDismiss: () {
+
+                                    },
+                                    animationDuration:Duration(seconds: 4),
+                                  ).show(context);
+
                                   return 'Saisissez un email valide';
                                 }
                               },
@@ -132,6 +153,17 @@ class _PageConnexionState extends State<PageConnexion> {
                               obscureText: _hide,
                               validator:(val){
                                 if( val == null || val.trim().contains(' ') || val.trim() == '' ){
+
+                                  ElegantNotification.info(
+                                    notificationMargin:60,
+                                    title:  Text("Oups"),
+                                    description:  Text("Veillez reverifier votre mot de passe", style: TextStyle(color: Colors.black)),
+                                    onDismiss: () {
+
+                                    },
+                                    animationDuration:Duration(seconds: 4),
+                                  ).show(context);
+
                                   return 'Saisissez un mot de passe valide';
                                 }
                                 return null;

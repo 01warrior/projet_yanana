@@ -135,7 +135,7 @@ class Param extends StatelessWidget{
       context: context, 
       builder: (context){
         return AlertDialog(
-          title: Text('Etapes à suivre'),
+          title: Text('Etapes à suivre',style: TextStyle(fontFamily: "Poppins"),),
           content:Text("""Pour une localisation précise de votre lieu de commerce,veuillez suivre ces différentes étapes.
 
 1- Placez-vous au niveau de votre lieu de commerce
@@ -144,9 +144,9 @@ class Param extends StatelessWidget{
 4- Assurer vous de voir le message de confirmation 
 
 
-          """),
+          """,style: TextStyle(fontFamily: "Poppins"),),
           actionsAlignment: MainAxisAlignment.center,
-          actions: [TextButton(onPressed: (){Navigator.of(context).pop();}, child: Text('OK',style:TextStyle(fontSize: 25)))],
+          actions: [TextButton(onPressed: (){Navigator.of(context).pop();}, child: Text('OK',style:TextStyle(fontSize: 24,fontFamily: "Poppins",color: Colors.black87)))],
         );
       }
     );
