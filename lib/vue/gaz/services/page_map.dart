@@ -4,17 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:navigation_with_mapbox/navigation_with_mapbox.dart';
-import 'package:yanana/vue/gaz/services/page_service_gaz.dart';
+import 'package:yanana/vue/gaz/services/page_recherche_gaz.dart';
 
 
 class WidgetMap extends StatefulWidget {
 
-  Position? localisation_courant;
+  Position? localisationCourant;
   final GeoPoint boutiqueClique;
 
   WidgetMap(
       {super.key,
-      required this.localisation_courant,
+      required this.localisationCourant,
       required this.boutiqueClique
       }
       );
@@ -32,7 +32,7 @@ class _WidgetMapState extends State<WidgetMap> {
 
     await _navigationWithMapboxPlugin.startNavigation(
         // debut de navigation
-        origin: WayPoint(latitude: widget.localisation_courant!.latitude, longitude: widget.localisation_courant!.longitude),
+        origin: WayPoint(latitude: widget.localisationCourant!.latitude, longitude: widget.localisationCourant!.longitude),
         // destination
         destination: WayPoint(latitude: widget.boutiqueClique.latitude, longitude:  widget.boutiqueClique.longitude),
         // choisir destination long appui
@@ -56,22 +56,22 @@ class _WidgetMapState extends State<WidgetMap> {
 
   }
 
-  Future TenirAjourPositionCheckDistance()async
+  Future tenirAjourPositionCheckDistance()async
   {
     var distance;
 
     //prendre la nouvelle position
-    widget.localisation_courant = await Geolocator.getCurrentPosition(
+    widget.localisationCourant = await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.high,
     );
 
     distance=Geolocator.distanceBetween(
-        widget.localisation_courant!.latitude,
-        widget.localisation_courant!.longitude,
+        widget.localisationCourant!.latitude,
+        widget.localisationCourant!.longitude,
         widget.boutiqueClique.latitude,
         widget.boutiqueClique.longitude).toInt()/1000;
 
-    print(distance);
+    debugPrint(distance);
 
     if(distance<0.15)
     {
@@ -79,10 +79,10 @@ class _WidgetMapState extends State<WidgetMap> {
           return Page_service_gaz();
         },));*/
       showModalBottomSheet(context: context, builder: (context) {
-        return Container(
+        return SizedBox(
           child: Column(
             children: [
-              Row(
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text("Succes"),
@@ -90,7 +90,7 @@ class _WidgetMapState extends State<WidgetMap> {
                 ],
               ),
 
-              Container(
+              const SizedBox(
                 height: 200,
                 child: Column(
                   children: [
@@ -101,11 +101,11 @@ class _WidgetMapState extends State<WidgetMap> {
 
               TextButton(onPressed: () {
                 Navigator.pop(context);
-              }, child: Text("Oui bien sur")),
+              }, child:const Text("Oui bien sur")),
 
               TextButton(onPressed: () {
                 Navigator.pop(context);
-              }, child: Text("Pas vraiment"))
+              }, child:const Text("Pas vraiment"))
 
             ],
           ),
@@ -115,14 +115,13 @@ class _WidgetMapState extends State<WidgetMap> {
     }
 
     else
-      return 0;
+      {return 0;}
 
   }
 
   //lors de linit on commence a checker la position et distance au cour de la navigation
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     
 ///////////////////////////////////////// REVOIR CA CAR PROVOQUE DES BUGS ON APP/////////////////////////////////////
@@ -137,7 +136,7 @@ class _WidgetMapState extends State<WidgetMap> {
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: Text("Direction",style: TextStyle(fontFamily: "Poppins"),),
+          title:const Text("Direction",style: TextStyle(fontFamily: "Poppins"),),
         ),
         body: Center(
           child: Column(
@@ -152,7 +151,7 @@ class _WidgetMapState extends State<WidgetMap> {
                           Stack(alignment: Alignment.center,
                               children:[
 
-                                SpinKitDoubleBounce(
+                                const SpinKitDoubleBounce(
                                   color: Colors.orange,
                                   size: 210.0,
                                 ),SizedBox(height:150 ,

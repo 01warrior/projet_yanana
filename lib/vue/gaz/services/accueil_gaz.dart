@@ -1,13 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:yanana/models/gaz/boutiquier_back.dart';
 import 'package:yanana/vue/gaz/connexion/page_connexion.dart';
-import 'package:yanana/vue/gaz/services/page_service_gaz.dart';
+import 'package:yanana/vue/gaz/services/page_recherche_gaz.dart';
 
 // PAGE D'ACCUEIL QUAND USER CLIQUE
 //                                  SUR L'ICONE GAZ DANS L'APP
 
-class AccueilGaz extends StatelessWidget{
+class AccueilGaz extends StatefulWidget{
   const AccueilGaz({super.key});
+
+  @override
+  State<AccueilGaz> createState() => _AccueilGazState();
+}
+
+class _AccueilGazState extends State<AccueilGaz> {
+
+
+  @override
+  void initState(){
+    super.initState();
+    BoutiquierBack().recupVille(context: context);
+  }
 
   @override
   Widget build(BuildContext context){
@@ -18,7 +32,7 @@ class AccueilGaz extends StatelessWidget{
           Padding(
             padding: const EdgeInsets.only(right: 20.0),
             child: IconButton.outlined(
-              style: ButtonStyle(backgroundColor: MaterialStatePropertyAll(Colors.white)),
+              style:const ButtonStyle(backgroundColor: MaterialStatePropertyAll(Colors.white)),
                 onPressed: () {
                 Navigator.push(context, MaterialPageRoute(
                   builder: (context) {
@@ -42,7 +56,7 @@ class AccueilGaz extends StatelessWidget{
                         Stack(alignment: Alignment.center,
                             children:[
 
-                              SpinKitDoubleBounce(
+                              const SpinKitDoubleBounce(
                                 color: Colors.orange,
                                 size: 210.0,
                               ),SizedBox(height:150 ,
@@ -59,7 +73,7 @@ class AccueilGaz extends StatelessWidget{
                                   ),
                                   onPressed:() async {
                                     Navigator.of(context).push(
-                                        MaterialPageRoute(builder: (context) => Page_service_gaz())
+                                        MaterialPageRoute(builder: (context) =>const PageServiceGaz())
                                     );
                                   },
                                   child: const Text('Trouver ',style: TextStyle(color: Colors.white,fontSize: 20,fontFamily: "Poppins"),),

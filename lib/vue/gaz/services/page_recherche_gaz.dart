@@ -3,21 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:lottie/lottie.dart';
+import 'package:yanana/vue/gaz/boutiquiers/listener.dart';
 import 'package:yanana/vue/gaz/services/page_map.dart';
 import 'package:yanana/models/gaz/suggest.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
-
+import 'package:provider/provider.dart';
 import '../../widget/animation_fade.dart';
 
-class Page_service_gaz extends StatefulWidget {
-  const Page_service_gaz({super.key});
+class PageServiceGaz extends StatefulWidget {
+  const PageServiceGaz({super.key});
 
   @override
-  State<Page_service_gaz> createState() => _Page_service_gazState();
+  State<PageServiceGaz> createState() => PageServiceGazState();
 }
 
-class _Page_service_gazState extends State<Page_service_gaz> {
-  Position? localisation_courant;
+class PageServiceGazState extends State<PageServiceGaz> {
+  Position? localisationCourant;
   String _gaz = '';
   String _ville = '';
   String _poids = '';
@@ -79,7 +80,7 @@ class _Page_service_gazState extends State<Page_service_gaz> {
             alignment: Alignment.center,
             width: double.infinity,
             color: Colors.black12,
-            padding: EdgeInsets.only(top: 60),
+            padding:const EdgeInsets.only(top: 60),
             child: FadeInWidget(
               direction: "top",
               child: DropdownMenu(
@@ -107,10 +108,7 @@ class _Page_service_gazState extends State<Page_service_gaz> {
                     ),
                     shadowColor:const MaterialStatePropertyAll(Colors.black87 ),
                   ),
-                  dropdownMenuEntries:const[//Data doit provenir de la database
-                    DropdownMenuEntry(value: 'Ouagadougou', label: 'Ouagadougou'),
-                    DropdownMenuEntry(value: 'Bobo Dioulasso', label: 'Bobo Dioulasso')
-                  ]
+                  dropdownMenuEntries:listDropVille()
               ),
             ),
           ),
@@ -152,11 +150,12 @@ class _Page_service_gazState extends State<Page_service_gaz> {
                       border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(20))),
                     ),
 
-                    dropdownMenuEntries:const[
+                    dropdownMenuEntries:const[//VOIR SI PEUT TAKE CES DATAS SUR LA BD
                       DropdownMenuEntry(value: "Total", label:"Total",),
                       DropdownMenuEntry(value: "Oryx", label:"Oryx"),
                       DropdownMenuEntry(value: "Pegaz", label:"Pegaz"),
                       DropdownMenuEntry(value: "Sodigaz", label:"Sodigaz"),
+                      DropdownMenuEntry(value: "Shell", label:"Shell"),
                     ],
 
                   ),
@@ -213,7 +212,7 @@ class _Page_service_gazState extends State<Page_service_gaz> {
                           child: Stack(alignment: Alignment.center,
                               children:[
 
-                                SpinKitDoubleBounce(
+                                const SpinKitDoubleBounce(
                                   color: Colors.orange,
                                   size: 220.0,
                                 ),SizedBox(height:160 ,
@@ -260,7 +259,7 @@ class _Page_service_gazState extends State<Page_service_gaz> {
 
             Center(
               child: Container(
-                margin: EdgeInsets.all(20),
+                margin:const EdgeInsets.all(20),
                 child: Column(
                   children: [
                     LottieBuilder.asset("assets/images/write.json",),
@@ -270,11 +269,11 @@ class _Page_service_gazState extends State<Page_service_gaz> {
                             fontSize: 18.0,
                             color:Colors.black87,
                         ), child: AnimatedTextKit(
-                      pause:Duration(seconds: 4) ,
+                      pause:const Duration(seconds: 4) ,
                         totalRepeatCount: 8,
                         animatedTexts: [
                           TypewriterAnimatedText(
-                              speed: Duration(milliseconds:60),
+                              speed:const Duration(milliseconds:60),
                               'Veuillez renseigner toutes les données de recherche la haut',
                             textAlign: TextAlign.center,
                           ),
@@ -282,7 +281,6 @@ class _Page_service_gazState extends State<Page_service_gaz> {
                         isRepeatingAnimation: true,
 
                         onTap: () {
-                          print("Tap Event");
                           },
                       ),),
                   ],
@@ -321,12 +319,12 @@ class _Page_service_gazState extends State<Page_service_gaz> {
                               }
                               else
                               {
-                                localisation_courant = await Geolocator.getCurrentPosition(
+                                localisationCourant = await Geolocator.getCurrentPosition(
                                   desiredAccuracy: LocationAccuracy.high,
                                 );
                                 Navigator.push(context, MaterialPageRoute(
                                   builder: (context) {
-                                    return WidgetMap(localisation_courant: localisation_courant,boutiqueClique: datas[index]['locate'],);
+                                    return WidgetMap(localisationCourant: localisationCourant,boutiqueClique: datas[index]['locate'],);
                                   },));
                               }
 
@@ -353,8 +351,13 @@ class _Page_service_gazState extends State<Page_service_gaz> {
                           );
                         },),
                     );
-                    }
-                    else {
+                  }
+                  else if(datas.isEmpty && _switchV ){
+
+                    return const Center(child: Text(" Le gaz choisi est indisponible"));
+                  }
+                  
+                  else {
 
                     /*ElegantNotification.info(
                       notificationMargin:60,
@@ -371,37 +374,44 @@ class _Page_service_gazState extends State<Page_service_gaz> {
                         child: Column(
                           children:[
                             _switchV ? const SizedBox()
-                            :AlertDialog(
-                              title:Text("Disponibilité pas confirmé",style: TextStyle(fontFamily: "Poppins"),),
-                              content: Column(
+                            :Expanded(
+                              child: ListView(
                                 children: [
-                                  Image.asset("assets/images/empty.png",width:150),
-                                  Text("Il ya de grande chance que le produit que vous recherchez soit indisponible, néamoins vous pouvez voir les lieux de vente proches de chez vous. Nous ne garantissons pas dans ce cas la disponibilté du produit.",style: TextStyle(fontFamily: "Poppins"),),
+                                  AlertDialog(
+                                    title:const Text("Gaz indisponible",style: TextStyle(fontSize:20,fontFamily: "Poppins"),),
+                                    content: Column(
+                                      children: [
+                                        Image.asset("assets/images/empty.png",width:110),
+                                        const Text("Il ya de grande chance que le produit que vous recherchez soit indisponible, néamoins vous pouvez voir les lieux de vente proches de chez vous. Nous ne garantissons pas la disponibilté du produit.",style: TextStyle(fontSize:13,fontFamily: "Poppins"),),
+                                      ],
+                                    ),
+                                    actions: [
+                                      TextButton(onPressed: () {
+                                         setState( (){_search = false;});
+                                      }, child:const Text("Non merci",style: TextStyle(fontFamily: "Poppins"),)),
+                                  
+                                      TextButton(onPressed: ()
+                                      {
+                                        setState((){
+                                          _switchV = _switchV ? false : true;
+                                        });
+                                      }, child:const Text("Oui voir",style: TextStyle(fontFamily: "Poppins"),)
+                                      ),
+                                  
+                                      /*
+                                      ElevatedButton(
+                                          onPressed: (){
+                                            setState((){
+                                              _switchV = _switchV ? false : true;
+                                            });
+                                          },
+                                          child:const Text('Voir lieux de ventes'))*/
+                                    ],backgroundColor: Colors.black12,
+                                  ),
                                 ],
                               ),
-                              actions: [
-                                TextButton(onPressed: () {
-                                  Navigator.pop(context);
-                                }, child: Text("Non merci",style: TextStyle(fontFamily: "Poppins"),)),
-
-                                TextButton(onPressed: ()
-                                {
-                                  setState((){
-                                    _switchV = _switchV ? false : true;
-                                  });
-                                }, child: Text("Oui voir",style: TextStyle(fontFamily: "Poppins"),)
-                                ),
-
-                                /*
-                                ElevatedButton(
-                                    onPressed: (){
-                                      setState((){
-                                        _switchV = _switchV ? false : true;
-                                      });
-                                    },
-                                    child:const Text('Voir lieux de ventes'))*/
-                              ],backgroundColor: Colors.black12,
                             ),
+                            const SizedBox(height:10),
                           ]
                         ),
                       );
@@ -413,13 +423,13 @@ class _Page_service_gazState extends State<Page_service_gaz> {
                 {
                   ElegantNotification.error(
                     notificationMargin:60,
-                    title:  Text("Oups"),
-                    description:  Text("Une erreur s'est produite", style: TextStyle(color: Colors.black)),
+                    title:const  Text("Oups"),
+                    description:const  Text("Une erreur s'est produite", style: TextStyle(color: Colors.black)),
                     onDismiss: () {
 
                     },
-                    animationDuration:Duration(seconds: 4),
-                  ).show(context);
+                    animationDuration:const Duration(seconds: 4),
+                  ).show(context);       // PETIT PROBLEME HERE QUAND ERREUR IL Y'A
 
                   return const Text("Une Erreur s'est produite");
                 }
@@ -442,226 +452,13 @@ class _Page_service_gazState extends State<Page_service_gaz> {
     );
 
   }
+  List<DropdownMenuEntry<String>> listDropVille(){
+    final co = Provider.of<ListenerBoutiq>(context,listen:false);
+    return co.getListVille.map((e) {
+      return DropdownMenuEntry(label: e.toString(),value:e.toString());
+    }).toList() ;
+  }
 }
 
 
-/*
-
-class ListLieuxProche extends StatefulWidget {
-  const ListLieuxProche({super.key});
-
-  @override
-  State<ListLieuxProche> createState() => _ListLieuxProcheState();
-}
-
-class _ListLieuxProcheState extends State<ListLieuxProche> {
-
-  Position? localisation_courant;
-
-  /*@override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-
-    calculerDistance();
-
-  }
-
-  List<Map> listLieux = [
-    {"lieu": "boutique 1",
-      "latitude":12.402716096877667,
-      "longitude":-1.5282797965314217
-    },
-
-    {"lieu": "boutique 2",
-      "latitude":12.36566,
-      "longitude":-1.53388
-    },
-
-    {"lieu": "boutique 3",
-      "latitude":12.25566,
-      "longitude":-1.64388
-    },
-
-    {"lieu": "boutique 4",
-      "latitude":12.40566,
-      "longitude": -1.59388
-    },
-
-    {"lieu": "boutique 5",
-      "latitude":12.50566,
-      "longitude":-1.73388
-    },
-
-    {"lieu": "boutique 6",
-      "latitude":12.4336217,
-      "longitude":-1.5326067
-    },
-
-    {"lieu": "boutique 7",
-      "latitude":12.4335583,
-      "longitude":-1.5125980
-    },
-
-  ];
-
-  //je reinitialise la liste de distance pour pas quil ajoute les nouvelle valeur au encienne
-  var listDistance = [];*/
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: FutureBuilder(
-        future: Suggest().recupLocate(ville: 'Ouagadougou', gaz: 'Oryx', poids: '6')  ,  //calculerDistance(),
-        builder: (context, snapshot) {
-          var datas = snapshot.data;
-          if(snapshot.hasData)
-          {
-
-            return ListView.builder(
-              padding:const EdgeInsets.all(15),
-              itemCount:datas!.length,
-              itemBuilder: (context, index) {
-                return GestureDetector(
-                  onTap: ()async {
-
-                    LocationPermission permission = await Geolocator.checkPermission();
-                    if (permission == LocationPermission.denied)
-                    {
-                      permission = await Geolocator.requestPermission();
-                    }
-                    else
-                    {
-                      localisation_courant = await Geolocator.getCurrentPosition(
-                        desiredAccuracy: LocationAccuracy.high,
-                      );
-                      Navigator.push(context, MaterialPageRoute(
-                        builder: (context) {
-                          return WidgetMap(localisation_courant: localisation_courant,boutiqueClique: datas[index]['locate'],);
-                        },));
-                    }
-
-                  },
-
-                  child: Card(
-                    surfaceTintColor: Colors.white,
-                    child: ListTile(
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                      tileColor: Colors.black12,
-                      contentPadding: EdgeInsets.all(10),
-                      leading: Icon(Icons.maps_home_work,size: 35,),
-                      title: Text(datas[index]["nom"]),
-                      trailing:datas[index]['dist']<6? Text("${datas[index]['dist']} Km",
-                        style: TextStyle(color:Colors.green,fontSize: 18, fontFamily: "Poppins"),)
-                          :datas[index]['dist']<10?
-                      Text("${datas[index]['dist']} Km",
-                        style: TextStyle(color:const Color.fromARGB(255, 2, 1, 1),fontSize: 18, fontFamily: "Poppins"),)
-                          :
-                      Text("${datas[index]['dist']} Km",
-                        style: TextStyle(color:Colors.red,fontSize: 18, fontFamily: "Poppins"),),
-                    ),
-                  ),
-                );
-              },);
-
-          }
-
-          else if(snapshot.hasError)
-          {
-            return Text("Erreur lors des calcul veillez relancer");
-          }
-          else if(snapshot.connectionState==ConnectionState.waiting)
-          {
-            return SpinKitWaveSpinner(
-              color: Colors.orange,
-              size: 80.0,
-            );
-          }
-          else
-            return Text("Aucune donné");
-        },
-      ),
-    );
-  }
-
-
-  Future calculerDistance()async
-  {
-
-    //je Verifie letat de la permission
-    LocationPermission permission = await Geolocator.checkPermission();
-
-    if (permission == LocationPermission.denied) {
-
-      showDialog(context: context, builder: (context) {
-        return AlertDialog(
-          title: Text("Veuillez activer votre localisation"),
-          actions: [
-            TextButton(onPressed: ()async {
-              Navigator.of(context).pop();
-              //je redemande la permission
-              permission = await Geolocator.requestPermission();
-            }, child: Text("Ok")
-            )
-          ],
-        );
-      },);
-
-    }
-
-    // L'utilisateur n'a pas encore accordé la permission de localisation.
-    // afficher un message ou demander à nouveau la permission.
-
-    else if (permission == LocationPermission.deniedForever) {
-      // L'utilisateur a refusé la permission de localisation de façon permanente.
-      showDialog(context: context, builder: (context) {
-        return AlertDialog(
-          title: Text("Veillez accorder l'autaurisation d'activer votre localisation sans quoi lapplication ne vas pas fonctionner"),
-          actions: [
-            TextButton(onPressed: ()async {
-              Navigator.of(context).pop();
-              //et on  redemande encore
-              permission = await Geolocator.requestPermission();
-            }, child: Text("Ok")
-            )
-          ],
-        );
-      },
-      );
-      Navigator.of(context).pop();
-    }
-
-    else {
-      // L'utilisateur a déjà accordé la permission de localisation.
-      // maintenant obtenir la localisation actuelle.
-      localisation_courant = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high,
-      );
-
-      //print('Latitude: ${localisation_courant!.latitude}, Longitude: ${localisation_courant!.longitude}');
-
-
-      //jai créer une liste de distance pour eviter de calculer manuelement les distance je calcule avec une boucle
-      // for tant que je natteint pas la longueur de la liste des lieu
-
-      //les distance sont en mettre donc conversion en int et division par 1000
-      /*for (int i = 0; i < listLieux.length; i++) {
-        listDistance.add(await Geolocator.distanceBetween(
-            localisation_courant!.latitude,
-            localisation_courant!.longitude,
-            listLieux[i]["latitude"],
-            listLieux[i]["longitude"]).toInt()/1000
-        );
-
-        //print("la liste des distance :$listDistance");
-
-      }
-
-      return listDistance;*/
-
-    }
-
-  }
-
-}
-*/
+  

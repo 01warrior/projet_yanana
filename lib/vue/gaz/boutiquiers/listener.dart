@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class ListenerBoutiq extends ChangeNotifier{
@@ -27,10 +28,60 @@ class ListenerBoutiq extends ChangeNotifier{
   bool _vendTotal = false;
   bool _vendPegaz = false;
   bool _vendSodigaz = false;
+  bool _vendShell = false;
   List _listGazVendu = [];
   List<String> _listGazDispo =  [];
+  List<String> _listVille= [];
+
+  //VAR CONCERNANT LE USER
+
+  TextEditingController _nomC = TextEditingController();
+  TextEditingController _emailC = TextEditingController();
+  TextEditingController _telephoneC = TextEditingController();
+
 
   bool _verifyCompte = false; //VAR PRENANT L'ETAT DU COMPTE VERIFIER OU NON
+  GeoPoint _userLocate  = GeoPoint(12.37936693446791,-1.5101656766943772);
+  String _nom = '';
+  String _email = '';
+  String _telephone = '';
+  String _userVille = '';
+
+  TextEditingController get getNomC => _nomC;
+  TextEditingController get getEmailC => _emailC;
+  TextEditingController get getTelephoneC => _telephoneC;
+
+  String get getUserVille => _userVille;
+  set setUserVille(String v){
+    _userVille = v;
+    notifyListeners();
+  }
+  
+  String get getNom => _nom;
+  set setNom(String n){
+    _nom = n;
+    notifyListeners();
+  }
+
+  String get getEmail => _email;
+  set setEmail(String e){
+    _email = e;
+    notifyListeners();
+  }
+
+  String get getTelephone => _telephone;
+  set setTelephone(String t){
+    _telephone = t;
+    notifyListeners();
+  }
+
+  GeoPoint get getUserLocate => _userLocate;
+  set setUserLocate(GeoPoint l){
+    _userLocate = l;
+    notifyListeners();
+  }
+
+  List<String> get getListVille => _listVille;
 
   List get getListGazVendu => _listGazVendu;
   List get getListGazDispo => _listGazDispo;
@@ -71,6 +122,12 @@ class ListenerBoutiq extends ChangeNotifier{
   bool get getVendSodigaz => _vendSodigaz;
   set setVendSodigaz(bool v){
     _vendSodigaz = v;
+    notifyListeners();
+  }
+
+  bool get getVendShell => _vendShell;
+  set setVendShell(bool v){
+    _vendShell = v;
     notifyListeners();
   }
 

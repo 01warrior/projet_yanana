@@ -22,12 +22,13 @@ class MyApp extends StatelessWidget {
       providers:[
         ChangeNotifierProvider(create: (context) => ListenerBoutiq()), 
         ChangeNotifierProvider(create: (context) => ListenerCo()), 
+        
       ],
       child: MaterialApp( 
         debugShowCheckedModeBanner: false,
         title: 'Yanana',
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueAccent.shade700),
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange),
           
           useMaterial3: true,
         ),

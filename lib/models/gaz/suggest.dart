@@ -15,14 +15,14 @@ class Suggest {
         desiredAccuracy: LocationAccuracy.high,
     );
     final db = FirebaseFirestore.instance;
-    await db.collection('users').get(GetOptions(serverTimestampBehavior: ServerTimestampBehavior.estimate))
+    await db.collection(ville).get(GetOptions(serverTimestampBehavior: ServerTimestampBehavior.estimate))
     .then((value)async {
       final docs = value.docs;
       for(var doc in docs){
         
         var dataSeller = doc.data();
-        if(dataSeller['ville'] == ville && dataSeller['verify'] == true){ // VERIF VOIR SI LE BOUTIQUIER EST DANS LA VILLE DU USER ET A UN COMPTE VERIFIER AVANT DE CONTINUER LES SEARCH
-          final dataGaz =await  FirebaseFirestore.instance.collection('users').doc(doc.id).collection('gaz').doc('$gaz$poids').get();
+        if(dataSeller['verify'] == true){ // VERIF VOIR SI LE BOUTIQUIER EST DANS LA VILLE DU USER ET A UN COMPTE VERIFIER AVANT DE CONTINUER LES SEARCH
+          final dataGaz =await  FirebaseFirestore.instance.collection(ville).doc(doc.id).collection('gaz').doc('$gaz$poids').get();
           if (dataGaz['dispo']){
             var dist = Geolocator.distanceBetween(// PERMET DE CALCULER LA DISTANCE SEPARANT LE USER DU BOUTIQUIER
               loc.latitude,
@@ -35,12 +35,14 @@ class Suggest {
         }
       }
     });
-// PERMET DE VERIFIER QUE LES DIFFERENTS 
-//                                     CHAMPS DE RECHERCHES SONT SAISIS
+    int end = listLocate.length < 10 ? listLocate.length : 10;
     listLocate.sort( (a,b) => (a['dist'] as double).compareTo(b['dist'] as double)  );
     debugPrint('$listLocate /////');
-    return listLocate;
+    return listLocate.getRange(0, end).toList();
   }
+
+  // PERMET DE VERIFIER QUE LES DIFFERENTS 
+//                                     CHAMPS DE RECHERCHES SONT SAISIS
 
   bool checkSearchField({required String ville,required String nom,required String poids}){
 
@@ -56,15 +58,15 @@ class Suggest {
         desiredAccuracy: LocationAccuracy.high,
     );
     final db = FirebaseFirestore.instance;
-    await db.collection('users').get(GetOptions(serverTimestampBehavior: ServerTimestampBehavior.estimate))
+    await db.collection(ville).get(GetOptions(serverTimestampBehavior: ServerTimestampBehavior.estimate))
     .then((value)async {
       final docs = value.docs;
       for(var doc in docs){
         
         var dataSeller = doc.data();
-        if(dataSeller['ville'] == ville && dataSeller['verify'] == true){ // VERIF VOIR SI LE BOUTIQUIER EST DANS LA VILLE DU USER ET A UN COMPTE VERIFIER AVANT DE CONTINUER LES SEARCH
-          final dataGaz =await  FirebaseFirestore.instance.collection('users').doc(doc.id).collection('gaz').doc('$gaz$poids').get();
-          if (dataGaz['vend']){
+        if(dataSeller['verify'] == true){ // VERIF VOIR SI LE BOUTIQUIER EST DANS LA VILLE DU USER ET A UN COMPTE VERIFIER AVANT DE CONTINUER LES SEARCH
+          final dataGaz =await  FirebaseFirestore.instance.collection(ville).doc(doc.id).collection('gaz').doc('$gaz$poids').get();
+          if(dataGaz['vend']){
             var dist = Geolocator.distanceBetween( // PERMET DE CALCULER LA DISTANCE SEPARANT LE USER DU BOUTIQUIER
               loc.latitude,
               loc.longitude,
@@ -76,10 +78,10 @@ class Suggest {
         }
       }
     });
-   
+    int end = listLocate.length < 10 ? listLocate.length : 10;
     listLocate.sort( (a,b) => (a['dist'] as double).compareTo(b['dist'] as double)  );
     debugPrint('$listLocate /////');
-    return listLocate;
+    return listLocate.getRange(0, end).toList() ;
   }
 
 }

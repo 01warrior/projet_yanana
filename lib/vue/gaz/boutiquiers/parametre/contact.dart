@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 // PERMET D'AFFICHER LES DIFFERENTES ICONES DES TYPES DE CONTACTS
 //                                                   PAR LESQUELS LE USER PEUT PASSER POUR NOUS CONTACTER
@@ -29,25 +29,25 @@ class _ContactState extends State<Contact> {
                 onPressed: ()async{
                   await makePhoneSMS();
                 },
-                icon: Icon(Icons.sms,color:Colors.blueAccent.shade700) ,
+                icon:const Icon(Icons.sms,color:Colors.orange,) ,
               ),
               IconButton(
                 onPressed: ()async{
                   await makeCall();
                 },
-                icon: Icon(Icons.call,color:Colors.blueAccent.shade700) ,
+                icon:const Icon(Icons.call,color:Colors.orange,) ,
               ),
               IconButton(
                 onPressed: ()async{
                   await makeEmailSMS();
                 },
-                icon: Icon(Icons.mail,color:Colors.blueAccent.shade700) ,
+                icon:const Icon(Icons.mail,color:Colors.orange) ,
               ),
               IconButton(
                 onPressed: ()async{
                   await makeWhatSMS();
                 },
-                icon: Icon(Icons.phone,color:Colors.blueAccent.shade700) ,
+                icon:const FaIcon(FontAwesomeIcons.whatsapp,color:Colors.orange),
               ),
             ],
           )
@@ -72,7 +72,7 @@ Future <void> makePhoneSMS()async{
     //queryParameters: {'body':body}
   );
   if(!await launchUrl(url)){
-    print('ERROR');
+    debugPrint('ERROR');
   }
 }
 
@@ -84,7 +84,7 @@ Future <void> makeWhatSMS()async{
     //queryParameters: {'text':sms}
   );
   if(!await launchUrl(url)){
-    print('ERROR');
+    debugPrint('ERROR');
   }
 }
 
@@ -94,7 +94,7 @@ Future <void> makeEmailSMS()async{
     path:'tmaebusiness01@gmail.com',
   );
   if(!await launchUrl(url)){
-    print('ERROR');
+    debugPrint('ERROR');
   }
 }
 
@@ -104,7 +104,7 @@ Future <void> makeCall()async{
     path:'57122223',
   );
   if(!await launchUrl(url)){
-    print('ERROR');
+    debugPrint('ERROR');
   }
 }
  

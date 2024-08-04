@@ -3,8 +3,7 @@ import 'package:yanana/vue/gaz/boutiquiers/listener.dart';
 import 'package:provider/provider.dart';
 import 'package:yanana/models/gaz/boutiquier_back.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-import 'package:shimmer/shimmer.dart';
-import 'package:yanana/vue/gaz/boutiquiers/waiting_page.dart';
+import 'package:yanana/vue/gaz/boutiquiers/parametre/gaz_vendu.dart';
 class GestBoutiquier extends StatefulWidget{
   const GestBoutiquier({super.key});
 
@@ -23,8 +22,9 @@ class _GestBoutiquierState extends State<GestBoutiquier> {
   @override
   Widget build(BuildContext context){
     final ecoutStock = Provider.of<ListenerBoutiq>(context);
-    return ListView.builder(
-          padding:EdgeInsets.all(15.0),
+      if(ecoutStock.getListGazVendu.isNotEmpty){
+        return ListView.builder(
+          padding:const EdgeInsets.all(15.0),
           itemCount: ecoutStock.getListGazVendu.length,
           itemBuilder: (context,index){
             String name = ecoutStock.getListGazVendu[index];
@@ -32,10 +32,10 @@ class _GestBoutiquierState extends State<GestBoutiquier> {
             return Column(
               children: [
                 ListTile(
-                  contentPadding: EdgeInsets.all(15),
+                  contentPadding:const EdgeInsets.all(15),
                   shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                  tileColor:name.contains('Oryx',) ? Colors.red.shade300: name.contains('Total') ? Colors.orange.shade300 : name.contains('Sodigaz') ? Colors.blueAccent.shade200 : Colors.green.shade300,
-                  leading: Icon(Icons.gas_meter,size:40,color: Colors.white70,),
+                  tileColor:name.contains('Oryx',) ? Colors.red.shade300: name.contains('Total') ? Colors.orange.shade300 : name.contains('Sodigaz') ? Colors.blueAccent.shade200 :  name.contains('Shell') ? Colors.blue: Colors.green.shade300,
+                  leading:const Icon(Icons.gas_meter,size:40,color: Colors.white70,),
                   title: Text(name,style: TextStyle(fontFamily: "Poppins"),),
                   trailing: Checkbox(
                     value: ecoutStock.getListGazDispo.contains(name), 
@@ -43,20 +43,20 @@ class _GestBoutiquierState extends State<GestBoutiquier> {
                       showDialog(
                         context: context, 
                         builder: (context) => AlertDialog(
-                          title: Text('Validation'),
-                          content: Text("Vous confirmez que vous avez ce produit ??"),
+                          title:const Text('Validation'),
+                          content:const Text("Vous confirmez que vous avez ce produit ??"),
                           actions: [
                             TextButton(
                               onPressed: ()async{
                                 e! ? setState((){ecoutStock.getListGazDispo.add(name) ;}) : setState((){ecoutStock.getListGazDispo.remove(name) ;}) ;
-                                await BoutiquierBack().updateGazDispo(docGaz: name, dispo: e);
+                                await BoutiquierBack().updateGazDispo(context:context ,docGaz: name, dispo: e);
                                 Navigator.of(context).pop();
                               }, 
-                              child: Text('Oui')
+                              child:const Text('Oui')
                             ),
                             TextButton(
                               onPressed: (){Navigator.of(context).pop(); }, 
-                              child: Text('Non')
+                              child:const Text('Non')
                             ),
                           ],
                         )
@@ -69,7 +69,28 @@ class _GestBoutiquierState extends State<GestBoutiquier> {
               ],
             );
           }
+      );}
+      else{
+        return SizedBox(
+          width:double.infinity,
+          child: Column(
+            mainAxisAlignment:MainAxisAlignment.center,
+            children:[
+              const Text('Aucun gaz vendu'),
+              const 
+              SizedBox(height:20),
+              ElevatedButton(
+                onPressed: (){
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => GazVendu())
+                  );
+                }, 
+                child:const Text('Ajouter')
+              )
+            ]
+          ),
         );
+      }
       
   }
 }

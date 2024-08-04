@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:yanana/models/gaz/boutiquier_back.dart';
 import 'package:yanana/vue/gaz/boutiquiers/parametre/gaz_vendu.dart';
 import 'package:yanana/vue/gaz/boutiquiers/parametre/localisation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:yanana/vue/gaz/boutiquiers/parametre/contact.dart';
+import 'package:yanana/vue/gaz/boutiquiers/parametre/profil.dart';
 
 class Param extends StatelessWidget{
   const Param({super.key});
@@ -32,7 +34,10 @@ class Param extends StatelessWidget{
                   child: Icon(Icons.person),
                 ),
                 title:Text('Profil',style: TextStyle(fontStyle: FontStyle.italic,fontWeight:FontWeight.bold),),
-                onTap: (){},
+                onTap: (){
+                  BoutiquierBack().fillChampsProfil(context: context);
+                  showModalBottomSheet(context: context, builder: (context) => const ProfilBottomSheet() );
+                },
               ),
               Divider(
                 height:10

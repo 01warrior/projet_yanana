@@ -2,8 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:yanana/models/gaz/boutiquier_back.dart';
 import 'package:yanana/vue/gaz/services/accueil_gaz.dart';
 import 'package:yanana/vue/widget/animation_fade.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 
 class PageServices extends StatefulWidget {
@@ -26,7 +28,7 @@ class _PageServicesState extends State<PageServices> {
       switch (status) {
         case InternetConnectionStatus.connected:
           ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
+              const SnackBar(
                   behavior:SnackBarBehavior.floating,
                   backgroundColor: Colors.green,content: Text("Vous etes à nouveau connecté")
               )
@@ -34,7 +36,7 @@ class _PageServicesState extends State<PageServices> {
           break;
         case InternetConnectionStatus.disconnected:
           ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
+              const SnackBar(
                   behavior:SnackBarBehavior.floating,
                   backgroundColor: Colors.red,content: Text("Reseau perdu! Vous etes hors connexion")
               )
@@ -56,7 +58,7 @@ class _PageServicesState extends State<PageServices> {
 
         elevation: 1,
         centerTitle: true,
-        title: Text("Services",style: TextStyle(color: Colors.white,fontFamily: "Poppins"),),
+        title:const Text("Services",style: TextStyle(color: Colors.white,fontFamily: "Poppins"),),
 
         
         backgroundColor: Colors.black26,
@@ -68,24 +70,24 @@ class _PageServicesState extends State<PageServices> {
             direction: "top",
             child: Container(
               alignment: Alignment.topCenter,
-              margin: EdgeInsets.all(15),
-              padding: EdgeInsets.all(15),
+              margin:const EdgeInsets.all(15),
+              padding:const EdgeInsets.all(15),
               height: 150,
               width: double.infinity,
 
               decoration: BoxDecoration(
-                image: DecorationImage(image:AssetImage("assets/images/place_martyrs.png")),
+                image:const DecorationImage(image:AssetImage("assets/images/place_martyrs.png")),
                 color: Colors.black12,
                 borderRadius: BorderRadius.circular(15)
               ),
 
-              child:Text("Facilitez vous la vie",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w800,fontFamily: "Poppins"),),
+              child:const Text("Facilitez vous la vie",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w800,fontFamily: "Poppins"),),
             ),
           ),
 
           GridView.builder(
-            padding: EdgeInsets.all(10),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            padding:const EdgeInsets.all(10),
+            gridDelegate:const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
 
               ),
@@ -117,8 +119,8 @@ class _PageServicesState extends State<PageServices> {
                     child: Column(
                       children: [
                        listImages[index],
-                        Divider(color: Colors.black38),
-                        Text(listName[index],style: TextStyle(color: Colors.black45,fontFamily: "Poppins"))
+                        const Divider(color: Colors.black38),
+                        Text(listName[index],style:const TextStyle(color: Colors.black45,fontFamily: "Poppins"))
                       ],
                     ),
                   ),

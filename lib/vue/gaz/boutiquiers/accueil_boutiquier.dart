@@ -9,13 +9,13 @@ import 'package:shimmer/shimmer.dart';
 
 // class implementant l'accueil 
                             //du boutiquier 
-class Accueil_boutiquier extends StatefulWidget {
-  const Accueil_boutiquier({super.key});
+class AccueilBoutiquier extends StatefulWidget {
+  const AccueilBoutiquier({super.key});
   @override
-  State<Accueil_boutiquier> createState() => _Accueil_boutiquierState();
+  State<AccueilBoutiquier> createState() => AccueilBoutiquierState();
 }
 
-class _Accueil_boutiquierState extends State<Accueil_boutiquier> {
+class AccueilBoutiquierState extends State<AccueilBoutiquier> {
 
   List listPageBoutiquier=[
     {
@@ -40,9 +40,10 @@ class _Accueil_boutiquierState extends State<Accueil_boutiquier> {
     final ecout = Provider.of<ListenerBoutiq>(context);
 
    
-    if(ecout.getVerifyCompte) return Scaffold(
+    if(ecout.getVerifyCompte){ 
+      return Scaffold(
         appBar:AppBar(
-          title: Text("${listPageBoutiquier[indexCourant]["titre"]}",style: TextStyle(color: Colors.black),),
+          title: Text("${listPageBoutiquier[indexCourant]["titre"]}",style:const TextStyle(color: Colors.black),),
           centerTitle: true,
           
           surfaceTintColor: Colors.black12,
@@ -52,7 +53,7 @@ class _Accueil_boutiquierState extends State<Accueil_boutiquier> {
       
         bottomNavigationBar: BottomNavigationBar(
       
-          selectedIconTheme: IconThemeData(
+          selectedIconTheme:const IconThemeData(
             size:35
           ),
       
@@ -82,7 +83,10 @@ class _Accueil_boutiquierState extends State<Accueil_boutiquier> {
         ]),
       
       );
-      else return WaitingPage();
+    }
+      else{
+        return const WaitingPage();
+      }
     
   }
 }
@@ -109,10 +113,12 @@ class _WaitLoadingDataState extends State<WaitLoadingData> {
   Widget build(BuildContext context){
 
     final ecout = Provider.of<ListenerBoutiq>(context);
-    if(ecout.getNonRecupData) 
-      return LoadingData();
-    else 
-      return Accueil_boutiquier();
+    if(ecout.getNonRecupData) {
+      return const LoadingData();
+    }
+    else {
+      return const AccueilBoutiquier();
+    }
 
   }
 }
@@ -132,22 +138,22 @@ class LoadingData extends StatelessWidget{
         baseColor: Colors.white,
         highlightColor: Colors.grey.shade100,
         child:Padding(
-          padding:EdgeInsets.all(12.0),
+          padding:const EdgeInsets.all(12.0),
           child: ListView.builder(
             itemCount: 5,
             itemBuilder: (context,ind) =>
               Column(
                 children: [
                   ListTile(
-                    titleTextStyle: TextStyle(height:14.0),
-                    contentPadding: EdgeInsets.all(15),
+                    titleTextStyle:const TextStyle(height:14.0),
+                    contentPadding:const EdgeInsets.all(15),
                     tileColor:Colors.grey.shade100,
                     shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
                     leading:const CircleAvatar(radius:20),
                     title:Container(width:10,color:Colors.red,height:14.0),//  SizedBox(child: Divider(height:30),width:30,height:30)
                     trailing: Container(width:20.0,height:20.0,color:Colors.white),
                   ),
-                  SizedBox(height:20)
+                  const SizedBox(height:20)
                 ],
               ),
              

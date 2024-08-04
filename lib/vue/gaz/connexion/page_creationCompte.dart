@@ -305,7 +305,7 @@ class _PageCreationCompteState extends State<PageCreationCompte> {
         password:_mdpC.text.trim()
       );
       final id = FirebaseAuth.instance.currentUser!.uid;
-      await FirebaseFirestore.instance.collection('users').doc(id)
+      await FirebaseFirestore.instance.collection(_villeC.text.trim()).doc(id)
       .set({
         'telephone':_telC.text.trim(),
         'nom':_nomC.text.trim(),
